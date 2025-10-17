@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+import { primaryNav } from '@config/navigation';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'glossary');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="glossary-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="glossary-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="glossary-content">
+    <h2 id="glossary-content" class="visually-hidden">Glossary terms</h2>
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

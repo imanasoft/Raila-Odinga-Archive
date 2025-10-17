@@ -1,0 +1,37 @@
+id: event-2008-grand-coalition
+slug: 2008-grand-coalition
+title: "Formation of Kenya's Grand Coalition Government"
+span:
+  start:
+    date: 2008-04-17
+    description: "Cabinet appointments gazetted"
+  precision: month
+summary: "A power-sharing government was formed with Raila Odinga sworn in as Prime Minister following the 2007-08 post-election crisis."
+description:
+  en: |
+    After mediation led by the African Union, President Mwai Kibaki and Raila Odinga agreed to a coalition that created the office of Prime Minister. The Kenya Gazette of 17 April 2008 formalised cabinet appointments, enabling the coalition to begin implementing its reform agenda.
+location:
+  location_id: location-nairobi
+categories:
+  - political-journey
+  - governance
+related_people:
+  - id: person-raila-odinga
+  - id: person-mwai-kibaki
+related_roles:
+  - id: role-prime-minister-2008
+related_policies:
+  - id: policy-national-reconciliation
+media:
+  - id: media-2008-coalition-agreement-photo
+timeline_display:
+  intensity: high
+  filters:
+    - power-sharing
+    - governance
+sources:
+  - source_id: kenya-gazette-2008-cabinet
+    summary: "Official record of the coalition cabinet appointments."
+  - source_id: reuters-2018-handshake
+    summary: "Provides historical context for the coalition agreement."
+updated_at: 2025-10-15

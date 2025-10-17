@@ -1,0 +1,33 @@
+---
+import AccessibilityToolbar from '@components/AccessibilityToolbar.astro';
+import SkipLink from '@components/SkipLink.astro';
+import SiteFooter from '@components/SiteFooter.astro';
+import SiteHeader from '@components/SiteHeader.astro';
+import '@styles/global.css';
+
+const { title, description, updatedAt, navItems = [] } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ? `${title} · Raila Odinga Archive` : 'Raila Odinga Archive'}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" as="style" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" />
+    </noscript>
+  </head>
+  <body>
+    <SkipLink />
+    <AccessibilityToolbar />
+    <SiteHeader navItems={navItems} />
+   
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter updatedAt={updatedAt} />
+  </body>
+</html>

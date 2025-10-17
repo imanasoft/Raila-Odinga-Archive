@@ -1,0 +1,23 @@
+id: media-2025-bbc-life-and-legacy-video
+slug: 2025-bbc-life-and-legacy-video
+type: video
+title: "BBC Africa: Raila Odinga's life and legacy"
+description: "BBC Africa's obituary package summarising Raila Odinga's reform campaigns, electoral bids, and 2025 passing."
+credit: "BBC News Africa"
+license: "Standard YouTube Licence"
+capture_date: 2025-10-15
+creator: "BBC News Africa"
+source_asset_url: "https://www.youtube.com/watch?v=HLNzILNCWm4"
+embed_url: "https://www.youtube.com/embed/HLNzILNCWm4"
+preview_url: "https://i.ytimg.com/vi/HLNzILNCWm4/hqdefault.jpg"
+alt_text: "BBC News Africa video recalling the life of Raila Odinga."
+caption: "BBC Africa retraces Raila Odinga's political journey and the tributes that followed his death in October 2025."
+duration_seconds: 129
+related_events:
+  - id: event-2025-10-15-state-announcement
+related_policies:
+  - id: policy-national-reconciliation
+sources:
+  - source_id: bbc-2025-raila-obit
+    summary: "Provides the obituary narrative featured in the video."
+updated_at: 2025-10-17

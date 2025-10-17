@@ -1,0 +1,33 @@
+id: event-2021-scholarship-awards
+slug: 2021-scholarship-awards
+title: "Raila Odinga Foundation scholarship disbursements"
+span:
+  start:
+    date: 2021-05-12
+    precision: day
+summary: "Foundation awarded secondary and university scholarships to more than 100 students in collaboration with county governments."
+description:
+  en: |
+    The Raila Odinga Foundation reported issuing tuition support and mentorship to students drawn from economically disadvantaged households, aligning the awards with county bursary programmes to expand reach.
+location:
+  location_id: location-nairobi
+categories:
+  - philanthropy
+  - education
+related_people:
+  - id: person-raila-odinga
+related_roles:
+  - id: role-au-envoy-infrastructure
+timeline_display:
+  intensity: medium
+  filters:
+    - scholarships
+    - education
+sources:
+  - source_id: raila-foundation-2024
+    summary: "Describes the foundation's scholarship and mentorship programmes."
+  - source_id: standard-scholarship-2021
+    summary: "Reports the scholarship awards event and beneficiary counts."
+  - source_id: kisumu-county-2024
+    summary: "Notes county partnerships for bursary and scholarship coordination."
+updated_at: 2025-10-15

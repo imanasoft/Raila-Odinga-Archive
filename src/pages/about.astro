@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+import { primaryNav } from '@config/navigation';
+
+const navItems = [...primaryNav];
+const pageEntry = await getEntry('pages', 'about');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout
+  title={pageEntry.data.title}
+  description={pageEntry.data.description}
+  updatedAt={updatedAt}
+  navItems={navItems}
+>
+  <section class="hero" aria-labelledby="about-project-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="about-project-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="about-project-overview">
+    <h2 id="about-project-overview" class="visually-hidden">Project overview</h2>
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+</style>

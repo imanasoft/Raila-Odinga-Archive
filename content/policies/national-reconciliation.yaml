@@ -1,0 +1,50 @@
+id: policy-national-reconciliation
+slug: national-reconciliation
+topic: governance
+title: "National reconciliation and institutional reform"
+summary: "Framework promoting inclusivity, anti-corruption measures, and constitutional reforms following the 2017 electoral crisis."
+narrative:
+  en: |
+    The Building Bridges Initiative sought to address ethnic antagonism, divisive elections, and lack of national ethos through proposals spanning constitutional amendments, economic equity, and anti-corruption oversight.
+stance_over_time:
+  - span:
+      start:
+        date: 2018-03-09
+      precision: month
+    position: "Advocated a unity platform jointly with the presidency."
+    context: "Handshake announcement and creation of the Building Bridges Initiative taskforce."
+    evidence:
+      - id: event-2018-handshake-announcement
+    sources:
+      - source_id: reuters-2018-handshake
+        summary: "Documents Odinga's remarks on reconciliation objectives."
+      - source_id: africa-report-2023-coalition
+        summary: "Evaluates the initiative's political context and goals."
+  - span:
+      start:
+        date: 2020-10-26
+      end:
+        date: 2021-08-20
+    position: "Supported constitutional amendment proposals subject to public participation."
+    context: "Publication of the BBI report and subsequent court rulings."
+    sources:
+      - source_id: kenya-supreme-court-2017
+        summary: "Provides legal benchmarks referenced in court decisions on the BBI process."
+      - source_id: economist-2024-profile
+        summary: "Analyzes Odinga's continued advocacy for institutional reform."
+related_events:
+  - id: event-2018-handshake-announcement
+  - id: event-2020-bbi-report
+related_speeches:
+  - id: speech-2018-handshake-address
+tags:
+  - governance
+  - reconciliation
+sources:
+  - source_id: reuters-2018-handshake
+    summary: "Primary coverage of reconciliation policy launch."
+  - source_id: africa-report-2023-coalition
+    summary: "Contextual analysis of post-handshake policy agenda."
+  - source_id: economist-2024-profile
+    summary: "Profiles Odinga's long-term governance priorities."
+updated_at: 2025-10-15

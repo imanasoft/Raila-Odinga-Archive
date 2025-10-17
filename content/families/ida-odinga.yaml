@@ -1,0 +1,19 @@
+id: familymember-ida-odinga
+slug: ida-odinga
+person_id: person-ida-odinga
+display_name: "Ida Betty Odinga"
+relationships:
+  spouses:
+    - id: familymember-raila-odinga
+  children:
+    - id: familymember-rose-odinga
+lineage_notes: "Married Raila Odinga in 1973; together they have four children."
+lineage_order:
+  generation: 2
+  birth_order: 1
+tags:
+  - lineage
+sources:
+  - source_id: nation-profile-2023
+    summary: "Profiles Ida Odinga and her family ties."
+updated_at: 2025-10-15

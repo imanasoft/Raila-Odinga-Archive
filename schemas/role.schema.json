@@ -1,0 +1,94 @@
+{
+  "$id": "https://railasite.org/schemas/role.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Role Record",
+  "description": "Official positions or appointments held by an individual.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "organization",
+    "span",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "title": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "organization_type": {
+      "type": "string"
+    },
+    "span": {
+      "$ref": "./common-definitions.schema.json#/$defs/temporalSpan"
+    },
+    "appointing_authority": {
+      "type": "string"
+    },
+    "responsibilities": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString",
+      "description": "Narrative on key responsibilities or mandate."
+    },
+    "preceded_by": {
+      "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+    },
+    "succeeded_by": {
+      "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+    },
+    "related_events": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "holders": {
+      "type": "array",
+      "description": "Individuals connected to the role (for coalition or shared roles).",
+      "items": {
+        "type": "object",
+        "required": [
+          "person_id"
+        ],
+        "properties": {
+          "person_id": {
+            "$ref": "./common-definitions.schema.json#/$defs/identifier"
+          },
+          "capacity": {
+            "type": "string"
+          },
+          "span": {
+            "$ref": "./common-definitions.schema.json#/$defs/temporalSpan"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

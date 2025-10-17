@@ -1,0 +1,32 @@
+id: role-opposition-leader-1980s
+slug: opposition-leader-1980s
+title: "Pro-democracy organiser"
+organization: "Kenya pro-democracy movement"
+organization_type: "civic"
+span:
+  start:
+    date: 1982-09-01
+  end:
+    date: 1988-02-01
+responsibilities:
+  en: |
+    Coordinated underground pro-reform networks advocating for multi-party democracy during the Moi administration.
+related_events:
+  - id: event-1982-detention
+holders:
+  - person_id: person-raila-odinga
+    capacity: "Activist"
+    span:
+      start:
+        date: 1982-09-01
+      end:
+        date: 1988-02-01
+tags:
+  - political-journey
+  - civil-liberties
+sources:
+  - source_id: nation-profile-2023
+    summary: "Describes Odinga's opposition activism and detentions in the 1980s."
+  - source_id: britannica-rail-2025
+    summary: "Notes Odinga's role in multi-party advocacy during the Moi era."
+updated_at: 2025-10-15

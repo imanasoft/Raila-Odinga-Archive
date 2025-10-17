@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '@utils/format';
+
+const { updates } = Astro.props as { updates: CollectionEntry<'updates'>[] };
+---
+<section class="update-list" aria-labelledby="updates-heading">
+  <div class="update-list__header">
+    <p class="site-section__eyebrow">Website Log</p>
+    <h2 id="updates-heading" class="site-section__title">Archive Change Log</h2>
+    <p class="update-list__intro">Release notes summarise adjustments to this website—new articles, data imports, and accessibility fixes.</p>
+  </div>
+  <ol class="update-list__items">
+    {updates.map((entry) => (
+      <li class="update-list__item">
+        <div>
+          <time class="update-list__date" datetime={entry.data.date.toISOString()}>
+            {formatDate(entry.data.date)}
+          </time>
+          <p class="update-list__title">{entry.data.title}</p>
+          <p class="update-list__summary">{entry.data.summary}</p>
+        </div>
+        <a class="update-list__link" href={`/updates/${entry.slug}/`}>Read update</a>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+.update-list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.update-list__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.update-list__intro {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 42ch;
+}
+
+.update-list__item {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  background: var(--color-surface-default);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.update-list__date {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.update-list__title {
+  font-size: var(--font-size-200);
+  margin: 0;
+}
+
+.update-list__summary {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.update-list__link {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+</style>

@@ -1,0 +1,29 @@
+id: role-au-envoy-infrastructure
+slug: au-envoy-infrastructure
+title: "African Union High Representative for Infrastructure Development"
+organization: "African Union Commission"
+organization_type: "international"
+span:
+  start:
+    date: 2018-10-20
+appointing_authority: "Chairperson of the African Union Commission"
+responsibilities:
+  en: |
+    Advocated for accelerated transcontinental infrastructure corridors, mobilised investment commitments, and coordinated with regional economic communities.
+related_events:
+  - id: event-2018-au-appointment
+holders:
+  - person_id: person-raila-odinga
+    capacity: "High Representative"
+    span:
+      start:
+        date: 2018-10-20
+tags:
+  - international-engagements
+  - infrastructure
+sources:
+  - source_id: au-press-2018-rep
+    summary: "Announces Odinga's appointment and outlines mandate."
+  - source_id: eac-report-2021
+    summary: "Notes Odinga's participation in regional infrastructure summits."
+updated_at: 2025-10-15

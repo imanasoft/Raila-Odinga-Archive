@@ -1,0 +1,19 @@
+id: highlight-2018-au-envoy
+slug: continental-infrastructure
+title: "African Union infrastructure envoy"
+summary: "Odinga's appointment as AU High Representative for Infrastructure advanced regional transport and energy integration agendas."
+period: "2018–2023"
+theme: diplomacy
+topics:
+  - international-engagements
+  - infrastructure
+links:
+  - label: "International engagements overview"
+    href: "/international-engagements"
+  - label: "AU envoy role brief"
+    href: "/political-journey#roles"
+sources:
+  - source_id: au-press-2018-rep
+    summary: "Confirms appointment and scope of the AU envoy role."
+  - source_id: afdb-2021-report
+    summary: "Highlights regional infrastructure priorities championed during the envoy tenure."

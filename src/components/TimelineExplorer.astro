@@ -1,0 +1,406 @@
+---
+import type { TimelineDisplayEvent } from '@types/content';
+
+interface TimelineExplorerProps {
+  allEvents: TimelineDisplayEvent[];
+  filteredEvents: TimelineDisplayEvent[];
+  decades: Array<{ label: string; value: string }>;
+  topics: string[];
+  selectedDecade: string;
+  selectedTopic: string;
+}
+
+const { allEvents, filteredEvents, decades, topics, selectedDecade, selectedTopic } =
+  Astro.props as TimelineExplorerProps;
+
+const resultsSummary = `${filteredEvents.length} event${filteredEvents.length === 1 ? '' : 's'} displayed`;
+---
+<section class="timeline" aria-label="Interactive timeline">
+  <header class="timeline__header">
+    <h1 class="timeline__title">Chronology of Raila Odinga</h1>
+    <p class="timeline__intro">
+      Filter the timeline by decade and topic to trace political milestones, diplomacy, and civic engagement. All entries include
+      source identifiers for verification.
+    </p>
+    <form
+      class="timeline__filters"
+      method="get"
+      data-timeline-filters
+      aria-label="Timeline filters"
+    >
+      <div class="timeline__filter-group">
+        <label for="decade-select">Decade</label>
+        <select id="decade-select" name="decade" autocomplete="off">
+          <option value="all" selected={selectedDecade === 'all'}>All decades</option>
+          {decades.map((decade) => (
+            <option value={decade.value} selected={selectedDecade === decade.value}>
+              {decade.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div class="timeline__filter-group">
+        <label for="topic-select">Topic</label>
+        <select id="topic-select" name="topic" autocomplete="off">
+          <option value="all" selected={selectedTopic === 'all'}>All topics</option>
+          {topics.map((topic) => (
+            <option value={topic} selected={selectedTopic === topic}>
+              {topic.replace(/-/g, ' ')}
+            </option>
+          ))}
+        </select>
+      </div>
+      <button type="submit" class="timeline__filter-submit">Apply filters</button>
+    </form>
+    <p class="timeline__results" role="status" aria-live="polite" data-results-count>
+      {resultsSummary}
+    </p>
+  </header>
+
+  <ol class="timeline__list" data-timeline-list>
+    {filteredEvents.length === 0 ? (
+      <li class="timeline__empty" data-empty-state>
+        <p>No events match the selected filters. Try broadening your search.</p>
+      </li>
+    ) : (
+      filteredEvents.map((event) => (
+        <li class={`timeline__item timeline__item--${event.intensity}`} data-event-id={event.id}>
+          <article class="timeline-card">
+            <header class="timeline-card__header">
+              <p class="timeline-card__years">
+                {event.endYear && event.endYear !== event.startYear
+                  ? `${event.startYear}–${event.endYear}`
+                  : event.startYear}
+              </p>
+              <h2 class="timeline-card__title">{event.title}</h2>
+            </header>
+            <p class="timeline-card__summary">{event.summary}</p>
+            {event.description && <p>{event.description}</p>}
+            {event.topics.length > 0 && (
+              <ul class="timeline-card__topics" aria-label="Topics">
+                {event.topics.map((topic) => (
+                  <li><span class="timeline-card__topic">{topic.replace(/-/g, ' ')}</span></li>
+                ))}
+              </ul>
+            )}
+            <footer class="timeline-card__footer">
+              <h3>Source IDs</h3>
+              <ul class="timeline-card__sources">
+                {event.sources.map((source) => (
+                  <li><code>{source.source_id}</code></li>
+                ))}
+              </ul>
+            </footer>
+          </article>
+        </li>
+      ))
+    )}
+  </ol>
+
+  <script type="application/json" data-timeline-json>{JSON.stringify(allEvents)}</script>
+  <script type="module">
+    const form = document.querySelector('[data-timeline-filters]');
+    const list = document.querySelector('[data-timeline-list]');
+    const resultsNode = document.querySelector('[data-results-count]');
+    const dataNode = document.querySelector('[data-timeline-json]');
+
+    if (form && list && resultsNode && dataNode) {
+      const events = JSON.parse(dataNode.textContent || '[]');
+
+      const escapeMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+
+      const escapeHtml = (value) =>
+        value.replace(/[&<>"']/g, (character) => escapeMap[character] ?? character);
+
+      function render(eventsToRender) {
+        list.innerHTML = '';
+        if (eventsToRender.length === 0) {
+          const empty = document.createElement('li');
+          empty.className = 'timeline__empty';
+          empty.innerHTML = '<p>No events match the selected filters. Try broadening your search.</p>';
+          list.append(empty);
+        } else {
+          const fragment = document.createDocumentFragment();
+          for (const event of eventsToRender) {
+            const item = document.createElement('li');
+            item.className = `timeline__item timeline__item--${event.intensity}`;
+            item.setAttribute('data-event-id', event.id);
+            item.innerHTML = `
+              <article class="timeline-card">
+                <header class="timeline-card__header">
+                  <p class="timeline-card__years">${
+                    event.endYear && event.endYear !== event.startYear
+                      ? `${event.startYear}–${event.endYear}`
+                      : event.startYear
+                  }</p>
+                  <h2 class="timeline-card__title">${escapeHtml(event.title)}</h2>
+                </header>
+                <p class="timeline-card__summary">${escapeHtml(event.summary)}</p>
+                ${event.description ? `<p>${escapeHtml(event.description)}</p>` : ''}
+                ${event.topics.length
+                  ? `<ul class="timeline-card__topics" aria-label="Topics">${event.topics
+                      .map((topic) => `<li><span class="timeline-card__topic">${escapeHtml(topic.replace(/-/g, ' '))}</span></li>`)
+                      .join('')}</ul>`
+                  : ''}
+                <footer class="timeline-card__footer">
+                  <h3>Source IDs</h3>
+                  <ul class="timeline-card__sources">
+                    ${event.sources
+                      .map((source) => `<li><code>${escapeHtml(source.source_id)}</code></li>`)
+                      .join('')}
+                  </ul>
+                </footer>
+              </article>
+            `;
+            fragment.append(item);
+          }
+          list.append(fragment);
+        }
+        resultsNode.textContent = `${eventsToRender.length} event${eventsToRender.length === 1 ? '' : 's'} displayed`;
+      }
+
+      function handleFilterChange() {
+        const formData = new FormData(form);
+        const decade = (formData.get('decade') || 'all').toString();
+        const topic = (formData.get('topic') || 'all').toString();
+
+        const filtered = events.filter((event) => {
+          const decadeMatches = decade === 'all' || event.decadeValue.toString() === decade;
+          const topicMatches = topic === 'all' || event.topics.includes(topic);
+          return decadeMatches && topicMatches;
+        });
+
+        render(filtered);
+
+        const url = new URL(window.location.href);
+        if (decade === 'all') {
+          url.searchParams.delete('decade');
+        } else {
+          url.searchParams.set('decade', decade);
+        }
+        if (topic === 'all') {
+          url.searchParams.delete('topic');
+        } else {
+          url.searchParams.set('topic', topic);
+        }
+        window.history.replaceState({}, '', url);
+      }
+
+      form.addEventListener('change', (event) => {
+        if (event.target instanceof HTMLSelectElement) {
+          event.preventDefault();
+          handleFilterChange();
+        }
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        handleFilterChange();
+      });
+    }
+  </script>
+</section>
+
+<style>
+.timeline {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.timeline__header {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.timeline__title {
+  font-size: var(--font-size-300);
+  margin: 0;
+}
+
+.timeline__intro {
+  max-width: 65ch;
+}
+
+.timeline__filters {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  align-items: end;
+}
+
+.timeline__filter-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.timeline__filter-submit {
+  justify-self: start;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface-subtle);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timeline__filter-submit:hover,
+.timeline__filter-submit:focus-visible {
+  background: var(--color-surface-default);
+  border-color: var(--color-link);
+  color: var(--color-link);
+}
+
+.timeline__results {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.timeline__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.timeline__item {
+  position: relative;
+  padding-left: var(--space-6);
+}
+
+.timeline__item::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 1rem;
+  width: 2px;
+  background: var(--color-border-default);
+}
+
+.timeline__item::after {
+  content: '';
+  position: absolute;
+  left: calc(1rem - 0.375rem);
+  top: 0.75rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+.timeline__item--medium::after {
+  background: var(--color-accent-neutral);
+}
+
+.timeline__item--high::after {
+  background: var(--color-link);
+}
+
+.timeline-card {
+  background: var(--color-surface-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.timeline-card__header {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.timeline-card__years {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+}
+
+.timeline-card__title {
+  margin: 0;
+  font-size: var(--font-size-225);
+}
+
+.timeline-card__summary {
+  margin: 0;
+  font-size: var(--font-size-100);
+}
+
+.timeline-card__topics {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.timeline-card__topic {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-pill);
+  background: var(--color-surface-subtle);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timeline-card__footer {
+  border-top: 1px solid var(--color-border-default);
+  padding-top: var(--space-3);
+}
+
+.timeline-card__sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.timeline__empty {
+  padding: var(--space-4);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--border-radius-md);
+  background: var(--color-surface-subtle);
+}
+
+@media (min-width: 48rem) {
+  .timeline__header {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+
+  .timeline__filters {
+    grid-template-columns: repeat(3, minmax(12rem, 1fr));
+  }
+
+  .timeline__results {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+</style>

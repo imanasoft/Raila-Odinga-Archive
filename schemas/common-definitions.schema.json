@@ -1,0 +1,113 @@
+{
+  "$id": "https://railasite.org/schemas/common-definitions.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Common Schema Definitions",
+  "description": "Shared data fragments reused across Raila Odinga archival content types.",
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9\-_/]*$",
+      "description": "Stable identifier used for filenames, slugs, and cross-references."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "URL-friendly slug for routing and taxonomy references."
+    },
+    "localizedString": {
+      "type": "object",
+      "description": "Localized string with BCP 47 language codes as keys to support future locales.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      },
+      "propertyNames": {
+        "pattern": "^[a-zA-Z]{2,3}(?:-[a-zA-Z0-9]{2,8})*$"
+      }
+    },
+    "tag": {
+      "type": "string",
+      "description": "Taxonomy slug referencing docs/batch1/taxonomy.md definitions.",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "sourceReference": {
+      "type": "object",
+      "required": ["source_id"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Identifier from data/sources.yaml."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Verbatim or paraphrased excerpt supporting the fact."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Short note on how the source substantiates the statement."
+        },
+        "page": {
+          "type": "string",
+          "description": "Page, section, or timestamp reference."
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the source was last confirmed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "temporalBound": {
+      "type": "object",
+      "required": ["date"],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 calendar date."
+        },
+        "approximate": {
+          "type": "boolean",
+          "description": "Indicates whether the date is approximate."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-friendly note about the temporal bound." }
+      },
+      "additionalProperties": false
+    },
+    "temporalSpan": {
+      "type": "object",
+      "required": ["start"],
+      "properties": {
+        "start": {
+          "$ref": "./common-definitions.schema.json#/$defs/temporalBound"
+        },
+        "end": {
+          "$ref": "./common-definitions.schema.json#/$defs/temporalBound"
+        },
+        "precision": {
+          "type": "string",
+          "enum": ["day", "month", "year", "decade"],
+          "description": "Granularity of the event for timeline visualisation."
+        }
+      },
+      "additionalProperties": false
+    },
+    "linkReference": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "$ref": "./common-definitions.schema.json#/$defs/identifier"
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional override label for display."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

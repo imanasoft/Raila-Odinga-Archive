@@ -1,0 +1,22 @@
+id: role-president-2002
+slug: president-2002
+title: "President of the Republic of Kenya"
+organization: "Government of Kenya"
+organization_type: "executive"
+span:
+  start:
+    date: 2002-12-30
+  end:
+    date: 2013-04-09
+holders:
+  - person_id: person-mwai-kibaki
+    capacity: "President"
+    span:
+      start:
+        date: 2002-12-30
+      end:
+        date: 2013-04-09
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Notes Kibaki's presidency overlapping with Odinga's premiership."
+updated_at: 2025-10-15

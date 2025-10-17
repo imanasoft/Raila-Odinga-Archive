@@ -1,0 +1,35 @@
+id: event-1982-detention
+slug: 1982-detention
+title: "Detention following 1982 coup attempt"
+span:
+  start:
+    date: 1982-09-01
+    description: "Initial detention period"
+  end:
+    date: 1988-02-01
+    approximate: true
+  precision: year
+summary: "Raila Odinga was detained by the Kenyan government after security forces suppressed a 1982 coup attempt."
+description:
+  en: |
+    Raila Odinga was held without trial for several years after authorities linked him to the failed 1982 coup attempt against President Daniel arap Moi. The detention marked a formative period in his opposition politics.
+location:
+  location_id: location-nairobi
+categories:
+  - political-journey
+  - timeline
+related_people:
+  - id: person-raila-odinga
+related_roles:
+  - id: role-opposition-leader-1980s
+timeline_display:
+  intensity: high
+  filters:
+    - detentions
+    - civil-liberties
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Notes Odinga's detention following the 1982 coup attempt."
+  - source_id: nation-profile-2023
+    quote: "Odinga spent several years in detention in the 1980s after the failed coup."
+updated_at: 2025-10-15

@@ -1,0 +1,38 @@
+id: speech-2018-handshake-address
+slug: 2018-handshake-address
+title: "Remarks on the Building Bridges Initiative"
+delivery:
+  date: 2018-03-09
+  venue: "Harambee House"
+  city: Nairobi
+  country: Kenya
+  format: speech
+summary: "Joint statement by Raila Odinga and President Uhuru Kenyatta announcing a reconciliation framework after the 2017 election dispute."
+abstract:
+  en: "Outlined shared objectives for ending political polarisation and initiating reforms on corruption, inclusivity, and national ethos."
+transcript:
+  path: media/transcripts/2018-handshake-address.md
+  length_minutes: 12
+  format: markdown
+  captioned: true
+topics:
+  - reconciliation
+  - governance
+keywords:
+  - handshake
+  - building-bridges
+media:
+  - id: media-2018-handshake-photo
+related_events:
+  - id: event-2018-handshake-announcement
+related_policies:
+  - id: policy-national-reconciliation
+full_text:
+  en: |
+    "We have a responsibility as leaders to find solutions that will address the recurrent cycle of election-related tensions and strengthen national unity," Raila Odinga stated, underscoring the need for institutional reforms.
+sources:
+  - source_id: reuters-2018-handshake
+    summary: "Reported key themes and quotes from the joint address."
+  - source_id: africa-report-2023-coalition
+    summary: "Analyzes the long-term political implications of the handshake initiative."
+updated_at: 2025-10-15

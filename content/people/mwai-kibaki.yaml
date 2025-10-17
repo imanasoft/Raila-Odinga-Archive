@@ -1,0 +1,10 @@
+id: person-mwai-kibaki
+slug: mwai-kibaki
+name: Mwai Kibaki
+summary: "Kenya's third president who served from 2002 to 2013."
+roles:
+  - id: role-president-2002
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Mentions Kibaki's role in the coalition agreement with Odinga."
+updated_at: 2025-10-15

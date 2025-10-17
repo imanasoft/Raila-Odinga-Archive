@@ -1,0 +1,83 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '@utils/format';
+import { primaryNav } from '@config/navigation';
+import { mapSourceIds } from '@utils/sources';
+
+export async function getStaticPaths() {
+  const updates = await getCollection('updates');
+  return updates.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const sourceMeta = mapSourceIds(entry.data.sources ?? []);
+
+const navItems = [...primaryNav];
+---
+<BaseLayout title={entry.data.title} description={entry.data.summary} updatedAt={entry.data.date.toISOString()} navItems={navItems}>
+  <article class="prose" aria-labelledby="update-title">
+    <p class="site-section__eyebrow"><a href="/updates">Back to updates</a></p>
+    <h1 id="update-title">{entry.data.title}</h1>
+    <p class="updates-detail__meta">
+      <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
+      · Authored by {entry.data.authors.join(', ')}
+    </p>
+    <p>{entry.data.summary}</p>
+    <Content />
+    {sourceMeta.length > 0 && (
+      <section aria-labelledby="update-sources" class="updates-detail__sources">
+        <h2 id="update-sources">Sources</h2>
+        <ul>
+          {sourceMeta.map((source) => (
+            <li>
+              {source.url ? (
+                <a href={source.url} target="_blank" rel="noreferrer noopener">{source.title}</a>
+              ) : (
+                source.title
+              )}
+              {source.publisher && <span class="updates-detail__source-publisher"> · {source.publisher}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+.updates-detail__meta {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.updates-detail__sources ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.updates-detail__sources a {
+  color: var(--color-link);
+}
+
+.updates-detail__sources a:hover,
+.updates-detail__sources a:focus-visible {
+  color: var(--color-link-hover);
+}
+
+.updates-detail__source-publisher {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+</style>

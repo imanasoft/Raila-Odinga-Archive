@@ -1,0 +1,172 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { primaryNav } from '@config/navigation';
+
+const navItems = [...primaryNav];
+const pageEntry = await getEntry('pages', 'pictorial');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+const sections = pageEntry.data.sections ?? [];
+const gallery = pageEntry.data.gallery ?? [];
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout
+  title={pageEntry.data.title}
+  description={pageEntry.data.description}
+  updatedAt={updatedAt}
+  navItems={navItems}
+>
+  <section class="hero" aria-labelledby="pictorial-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="pictorial-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="pictorial-intro">
+    <h2 id="pictorial-intro" class="visually-hidden">Gallery overview</h2>
+    <Content />
+  </article>
+
+  {sections.length > 0 && (
+    <section class="site-section" aria-labelledby="pictorial-brief-title">
+      {sections[0]?.eyebrow && <p class="site-section__eyebrow">{sections[0]?.eyebrow}</p>}
+      <h2 id="pictorial-brief-title" class="site-section__title">{sections[0]?.title}</h2>
+      {sections[0]?.summary && <p class="site-section__intro">{sections[0]?.summary}</p>}
+    </section>
+  )}
+
+  {gallery.length > 0 && (
+    <section class="site-section pictorial-gallery" aria-labelledby="pictorial-gallery-title">
+      <p class="site-section__eyebrow">Visual timeline</p>
+      <h2 id="pictorial-gallery-title" class="site-section__title">Gallery highlights</h2>
+      <div class="pictorial-gallery__grid">
+        {gallery.map((item) => {
+          const creditLabel = item.credit?.label ?? '';
+          const creditHref = item.credit?.href;
+          const hasCredit = Boolean(creditLabel);
+          return (
+            <figure class="pictorial-card">
+              <div class="pictorial-card__media">
+                {item.src ? (
+                  <img src={item.src} alt={item.alt ?? ''} loading="lazy" decoding="async" />
+                ) : (
+                  <div class="pictorial-card__placeholder" role="presentation" aria-hidden="true" />
+                )}
+              </div>
+              <figcaption class="pictorial-card__caption">
+                <h3>{item.title}</h3>
+                <p>{item.caption}</p>
+                {hasCredit && (
+                  <p class="pictorial-card__credit">
+                    Credit: {' '}
+                    {creditHref ? (
+                      <a href={creditHref} target="_blank" rel="noreferrer noopener">
+                        {creditLabel}
+                      </a>
+                    ) : (
+                      creditLabel
+                    )}
+                  </p>
+                )}
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pictorial-gallery__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .pictorial-gallery__grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+.pictorial-card {
+  display: grid;
+  gap: var(--space-3);
+  background: var(--color-surface-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--elevation-raised);
+  overflow: hidden;
+}
+
+.pictorial-card__media {
+  position: relative;
+  background: var(--color-surface-subtle);
+  aspect-ratio: 4 / 3;
+}
+
+.pictorial-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-subtle),
+    var(--color-border-subtle)
+  );
+}
+
+.pictorial-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pictorial-card__caption {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.pictorial-card__caption h3 {
+  margin: 0;
+  font-size: var(--font-size-200);
+}
+
+.pictorial-card__caption p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.pictorial-card__credit {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pictorial-card__credit a {
+  color: inherit;
+}
+
+.pictorial-card__credit a:hover,
+.pictorial-card__credit a:focus-visible {
+  color: var(--color-link);
+}
+</style>

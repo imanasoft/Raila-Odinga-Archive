@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { primaryNav } from '@config/navigation';
+
+const navItems = [...primaryNav];
+---
+<BaseLayout title="Page not found" description="The requested resource was not located." updatedAt={new Date().toISOString()} navItems={navItems}>
+  <section class="prose" aria-labelledby="not-found-title">
+    <h1 id="not-found-title">Page not found</h1>
+    <p>The page you were looking for may be scheduled for a future batch or has moved.</p>
+    <p>
+      Return to the <a href="/">home page</a> or explore the <a href="/updates">updates log</a> for the latest
+      additions.
+    </p>
+  </section>
+</BaseLayout>

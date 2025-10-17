@@ -1,0 +1,29 @@
+id: event-2018-au-appointment
+slug: 2018-au-appointment
+title: "Appointment as AU High Representative for Infrastructure Development"
+span:
+  start:
+    date: 2018-10-20
+  precision: day
+summary: "The African Union Commission appointed Raila Odinga as High Representative for Infrastructure Development."
+description:
+  en: |
+    AU Commission Chairperson Moussa Faki Mahamat announced Raila Odinga's selection to champion cross-border infrastructure programmes, emphasising integration initiatives such as the continental high-speed rail network.
+location:
+  location_id: location-addis-ababa
+categories:
+  - international-engagements
+  - infrastructure
+related_people:
+  - id: person-raila-odinga
+related_roles:
+  - id: role-au-envoy-infrastructure
+timeline_display:
+  intensity: medium
+  filters:
+    - diplomacy
+    - infrastructure
+sources:
+  - source_id: au-press-2018-rep
+    quote: "H.E. Raila Odinga is appointed High Representative for Infrastructure Development in Africa."
+updated_at: 2025-10-15

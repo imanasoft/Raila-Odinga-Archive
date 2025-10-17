@@ -1,0 +1,26 @@
+id: event-2025-kenya-kwanza-report
+slug: 2025-09-16-kenya-kwanza-report
+title: "Kenya Kwanza issues broad-based government progress report"
+span:
+  start:
+    date: 2025-09-16
+    precision: day
+summary: "The administration published a three-year scorecard outlining appointments and reforms under the broad-based government framework."
+description:
+  en: |
+    The Executive Office of the President released "Delivering the Promise: Three Years of Kenya Kwanza," a comprehensive report summarising appointments, legislative priorities, and infrastructure projects executed through the broad-based government arrangement. The document detailed how Azimio and Kenya Kwanza allies share cabinet portfolios, state corporation leadership, and reform milestones.
+location:
+  location_id: location-nairobi
+categories:
+  - policies
+  - governance
+  - political-journey
+timeline_display:
+  intensity: medium
+  filters:
+    - governance
+    - broad-based-government
+sources:
+  - source_id: mygov-2025-kenya-kwanza-report
+    summary: "Official government publication outlining broad-based appointments and programme delivery metrics."
+updated_at: 2025-10-17

@@ -1,0 +1,91 @@
+{
+  "$id": "https://railasite.org/schemas/family-member.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Family Member Record",
+  "description": "Genealogical representation used for family tree visualisations.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "person_id",
+    "display_name",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "person_id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "birth": {
+      "$ref": "./common-definitions.schema.json#/$defs/temporalBound"
+    },
+    "death": {
+      "$ref": "./common-definitions.schema.json#/$defs/temporalBound"
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "parents": {
+          "type": "array",
+          "items": {
+            "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+          }
+        },
+        "spouses": {
+          "type": "array",
+          "items": {
+            "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "lineage_notes": {
+      "type": "string"
+    },
+    "lineage_order": {
+      "type": "object",
+      "properties": {
+        "generation": {
+          "type": "integer"
+        },
+        "birth_order": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

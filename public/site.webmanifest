@@ -1,0 +1,11 @@
+{
+  "name": "Raila Odinga Archive",
+  "short_name": "Odinga Archive",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ef",
+  "theme_color": "#193a63",
+  "lang": "en",
+  "description": "Neutral reference site for Raila Amolo Odinga.",
+  "icons": []
+}

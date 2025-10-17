@@ -1,0 +1,375 @@
+---
+import type { FamilyMemberEntry, FamilyTreeNodeData, PersonEntry } from '@types/content';
+import { parse } from 'yaml';
+import { mapSourceIds } from '@utils/sources';
+
+interface FamilyTreeProps {
+  focusId?: string;
+  highlightIds?: string[];
+}
+
+interface CombinedMember extends FamilyMemberEntry {
+  resolvedName: string;
+  personSummary?: string;
+}
+
+const { focusId, highlightIds = [] } = Astro.props as FamilyTreeProps;
+
+const familyModules = import.meta.glob<string>('../../content/families/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const personModules = import.meta.glob<string>('../../content/people/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const familyEntries = Object.values(familyModules).map((content) => parse(content) as FamilyMemberEntry);
+const personEntries = Object.values(personModules).map((content) => parse(content) as PersonEntry);
+
+const personMap = new Map(personEntries.map((person) => [person.id, person]));
+const combinedMembers: CombinedMember[] = familyEntries.map((entry) => {
+  const person = entry.person_id ? personMap.get(entry.person_id) : undefined;
+  const resolvedName = entry.display_name || person?.name || entry.id;
+  return {
+    ...entry,
+    resolvedName,
+    personSummary: person?.summary
+  };
+});
+
+const memberMap = new Map(combinedMembers.map((member) => [member.id, member]));
+
+let rootMembers = combinedMembers.filter(
+  (member) => !member.relationships?.parents || member.relationships.parents.length === 0
+);
+
+if (rootMembers.length === 0 && (focusId || highlightIds.length > 0)) {
+  const candidateIds = [focusId, ...highlightIds].filter(Boolean) as string[];
+  for (const candidateId of candidateIds) {
+    const candidate = memberMap.get(candidateId);
+    if (candidate) {
+      rootMembers = [candidate];
+      break;
+    }
+  }
+}
+
+const highlightSet = new Set([focusId, ...highlightIds].filter(Boolean));
+
+function buildNode(member: CombinedMember, visited: Set<string>): FamilyTreeNodeData {
+  const nextVisited = new Set(visited);
+  nextVisited.add(member.id);
+  const rawChildren = member.relationships?.children ?? [];
+  const childMembers = rawChildren
+    .map((child) => memberMap.get(child.id))
+    .filter((child): child is CombinedMember => Boolean(child) && !nextVisited.has(child.id))
+    .sort((a, b) => {
+      const aGen = a.lineage_order?.generation ?? Number.POSITIVE_INFINITY;
+      const bGen = b.lineage_order?.generation ?? Number.POSITIVE_INFINITY;
+      if (aGen !== bGen) {
+        return aGen - bGen;
+      }
+      const aOrder = a.lineage_order?.birth_order ?? Number.POSITIVE_INFINITY;
+      const bOrder = b.lineage_order?.birth_order ?? Number.POSITIVE_INFINITY;
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+      return a.resolvedName.localeCompare(b.resolvedName, 'en');
+    });
+
+  return {
+    member: {
+      id: member.id,
+      resolvedName: member.resolvedName,
+      lineage_notes: member.lineage_notes,
+      birth: member.birth,
+      personSummary: member.personSummary,
+      lineage_order: member.lineage_order,
+      sources: member.sources
+    },
+    children: childMembers.map((child) => buildNode(child, nextVisited))
+  };
+}
+
+const treeRoots = rootMembers
+  .sort((a, b) => {
+    const aGen = a.lineage_order?.generation ?? Number.POSITIVE_INFINITY;
+    const bGen = b.lineage_order?.generation ?? Number.POSITIVE_INFINITY;
+    if (aGen !== bGen) {
+      return aGen - bGen;
+    }
+    return a.resolvedName.localeCompare(b.resolvedName, 'en');
+  })
+  .map((member) => buildNode(member, new Set()));
+
+const firstFocusableId = focusId && memberMap.has(focusId) ? focusId : treeRoots[0]?.member.id;
+const escapeMap: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => escapeMap[character] ?? character);
+
+function renderNodeHtml(node: FamilyTreeNodeData, level: number): string {
+  const isHighlighted = highlightSet.has(node.member.id);
+  const highlightClass = isHighlighted ? ' family-tree__node--highlight' : '';
+  const tabIndex = node.member.id === firstFocusableId ? '0' : '-1';
+  const hasChildren = node.children.length > 0;
+  const ariaExpanded = hasChildren ? ' aria-expanded="true"' : '';
+  const generation = node.member.lineage_order?.generation
+    ? `<p class=\"family-tree__meta\">Generation ${node.member.lineage_order.generation}</p>`
+    : '';
+  const notes = node.member.lineage_notes
+    ? `<p class=\"family-tree__notes\">${escapeHtml(node.member.lineage_notes)}</p>`
+    : '';
+  const birthplace = node.member.birth?.description
+    ? `<p class=\"family-tree__detail\"><strong>Birthplace:</strong> ${escapeHtml(node.member.birth.description)}</p>`
+    : '';
+  const summary = node.member.personSummary
+    ? `<p class=\"family-tree__detail\">${escapeHtml(node.member.personSummary)}</p>`
+    : '';
+  const generationNumber = node.member.lineage_order?.generation ?? 0;
+  const generationClass = generationNumber ? ` family-tree__card--generation-${generationNumber}` : '';
+  const sourceMeta = mapSourceIds((node.member.sources ?? []).map((source) => source.source_id));
+  const sources = sourceMeta.length
+    ? `<footer class=\"family-tree__sources\" aria-label=\"Sources for ${escapeHtml(node.member.resolvedName)}\"><ul>${sourceMeta
+        .map((source) => {
+          const title = escapeHtml(source.title);
+          const publisher = source.publisher
+            ? `<span class=\\"family-tree__source-publisher\\"> · ${escapeHtml(source.publisher)}</span>`
+            : '';
+          return `<li>${source.url ? `<a href=\\"${source.url}\\" target=\\"_blank\\" rel=\\"noreferrer noopener\\">${title}</a>` : `${title}`}${publisher}</li>`;
+        })
+        .join('')}</ul></footer>`
+    : '';
+  const childrenHtml = hasChildren
+    ? `<ul role=\"group\" class=\"family-tree__children\">${node.children
+        .map((child) => renderNodeHtml(child, level + 1))
+        .join('')}</ul>`
+    : '';
+
+  return `<li role=\"treeitem\" aria-level=\"${level}\"${ariaExpanded} class=\"family-tree__node${highlightClass}\" tabindex=\"${tabIndex}\">\n`
+    + `    <article class=\"family-tree__card${generationClass}\">\n`
+    + `      <header class=\"family-tree__card-header\">\n`
+    + `        <h3 class=\"family-tree__name\">${escapeHtml(node.member.resolvedName)}</h3>\n`
+    + `        ${generation}\n`
+    + `      </header>\n`
+    + `      ${notes}\n`
+    + `      ${birthplace}\n`
+    + `      ${summary}\n`
+    + `      ${sources}\n`
+    + `    </article>\n`
+    + `    ${childrenHtml}\n`
+    + `  </li>`;
+}
+const treeHtml = treeRoots.map((node) => renderNodeHtml(node, 1)).join('');
+---
+<section class="family-tree" aria-labelledby="family-tree-title">
+  <header class="family-tree__intro">
+    <h2 id="family-tree-title">Family tree</h2>
+    <p>
+      The lineage view maps recorded relationships across generations. Keyboard users can tab into the tree and use the arrow
+      keys to explore each branch.
+    </p>
+    <div class="family-tree__legend" aria-hidden="true">
+      <span class="family-tree__legend-item">
+        <span class="family-tree__legend-swatch family-tree__legend-swatch--generation-1"></span>
+        Generation 1
+      </span>
+      <span class="family-tree__legend-item">
+        <span class="family-tree__legend-swatch family-tree__legend-swatch--generation-2"></span>
+        Generation 2
+      </span>
+      <span class="family-tree__legend-item">
+        <span class="family-tree__legend-swatch family-tree__legend-swatch--generation-3"></span>
+        Generation 3+
+      </span>
+    </div>
+  </header>
+  {treeRoots.length === 0 ? (
+    <p class="family-tree__empty">Family data will be populated in upcoming batches.</p>
+  ) : (
+    <div class="family-tree__viewport" role="region" aria-label="Family tree diagram">
+      <ul role="tree" aria-label="Raila Odinga lineage" class="family-tree__list" set:html={treeHtml}></ul>
+    </div>
+  )}
+</section>
+
+<style>
+.family-tree {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.family-tree__intro {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.family-tree__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.family-tree__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.family-tree__legend-swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid currentColor;
+}
+
+.family-tree__legend-swatch--generation-1 {
+  background: linear-gradient(135deg, rgba(245, 116, 0, 0.35), rgba(245, 116, 0, 0.1));
+  border-color: rgba(245, 116, 0, 0.6);
+}
+
+.family-tree__legend-swatch--generation-2 {
+  background: linear-gradient(135deg, rgba(17, 75, 155, 0.3), rgba(17, 75, 155, 0.1));
+  border-color: rgba(17, 75, 155, 0.55);
+}
+
+.family-tree__legend-swatch--generation-3 {
+  background: linear-gradient(135deg, rgba(31, 111, 80, 0.28), rgba(31, 111, 80, 0.08));
+  border-color: rgba(31, 111, 80, 0.5);
+}
+
+.family-tree__viewport {
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+}
+
+.family-tree__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.family-tree__children {
+  list-style: none;
+  margin: var(--space-3) 0 0 var(--space-5);
+  padding: 0;
+  border-left: 1px solid var(--color-border-default);
+}
+
+.family-tree__node {
+  position: relative;
+  padding-left: var(--space-4);
+}
+
+.family-tree__node:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 4px;
+}
+
+.family-tree__node--highlight .family-tree__card {
+  border-color: var(--color-link);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 20%, transparent);
+}
+
+.family-tree__card {
+  background: var(--color-surface-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  min-width: 16rem;
+}
+
+.family-tree__card--generation-1 {
+  background: linear-gradient(135deg, rgba(245, 116, 0, 0.18), rgba(245, 116, 0, 0.04));
+  border-color: rgba(245, 116, 0, 0.35);
+}
+
+.family-tree__card--generation-2 {
+  background: linear-gradient(135deg, rgba(17, 75, 155, 0.16), rgba(17, 75, 155, 0.04));
+  border-color: rgba(17, 75, 155, 0.35);
+}
+
+.family-tree__card--generation-3 {
+  background: linear-gradient(135deg, rgba(31, 111, 80, 0.16), rgba(31, 111, 80, 0.04));
+  border-color: rgba(31, 111, 80, 0.32);
+}
+
+.family-tree__card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.family-tree__name {
+  margin: 0;
+  font-size: var(--font-size-175);
+}
+
+.family-tree__meta {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.family-tree__notes,
+.family-tree__detail {
+  margin: 0;
+}
+
+.family-tree__sources ul {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.family-tree__sources a {
+  color: var(--color-link);
+}
+
+.family-tree__sources a:hover,
+.family-tree__sources a:focus-visible {
+  color: var(--color-link-hover);
+}
+
+.family-tree__source-publisher {
+  color: var(--color-text-secondary);
+}
+
+.family-tree__empty {
+  background: var(--color-surface-subtle);
+  border: 1px dashed var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .family-tree__node,
+  .family-tree__card {
+    transition: none !important;
+  }
+}
+</style>

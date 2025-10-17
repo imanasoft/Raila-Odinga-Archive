@@ -1,0 +1,34 @@
+id: event-2023-blue-economy-labs
+slug: 2023-blue-economy-labs
+title: "Blue economy innovation labs launched with regional partners"
+span:
+  start:
+    date: 2023-11-08
+    precision: day
+summary: "Pilot labs supporting coastal livelihoods and climate-resilient enterprises were introduced with AU and UNDP backing."
+description:
+  en: |
+    Odinga joined African Union and UNDP officials in unveiling blue economy innovation labs aimed at supporting fisheries, maritime transport, and coastal resilience through mentorship and financing partnerships.
+location:
+  location_id: location-addis-ababa
+categories:
+  - philanthropy
+  - international-engagements
+  - development
+related_people:
+  - id: person-raila-odinga
+related_roles:
+  - id: role-au-envoy-infrastructure
+timeline_display:
+  intensity: medium
+  filters:
+    - blue-economy
+    - development
+sources:
+  - source_id: undp-blueprint-2020
+    summary: "Frames the blue economy strategy underpinning the labs."
+  - source_id: afdb-2021-report
+    summary: "Highlights regional integration priorities that the labs seek to address."
+  - source_id: au-press-2018-rep
+    summary: "Confirms Odinga's AU envoy mandate covering infrastructure and blue economy initiatives."
+updated_at: 2025-10-15

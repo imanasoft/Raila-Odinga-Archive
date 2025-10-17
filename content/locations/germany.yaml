@@ -1,0 +1,14 @@
+id: location-germany
+slug: germany
+name: "Germany"
+type: country
+description: "Federal republic in Central Europe."
+geo:
+  latitude: 51.1657
+  longitude: 10.4515
+  precision: country
+country_code: DE
+sources:
+  - source_id: oxford-2020-encyclopedia
+    summary: "Provides country background used for location hierarchy."
+updated_at: 2025-10-15

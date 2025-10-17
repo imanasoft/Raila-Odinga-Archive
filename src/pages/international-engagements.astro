@@ -1,0 +1,298 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LocationMap from '@components/LocationMap.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { LocationEntry, RoleEntry, TimelineEventEntry } from '@types/content';
+import { mapSourceIds } from '@utils/sources';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'international-engagements');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+
+const roleModules = import.meta.glob<string>('../../content/roles/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const eventModules = import.meta.glob<string>('../../content/events/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const locationModules = import.meta.glob<string>('../../content/locations/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const roles = Object.values(roleModules).map((content) => parse(content) as RoleEntry);
+const events = Object.values(eventModules).map((content) => parse(content) as TimelineEventEntry);
+const locations = Object.values(locationModules).map((content) => parse(content) as LocationEntry);
+const locationMap = new Map(locations.map((entry) => [entry.id, entry]));
+
+const envoyRoles = roles
+  .filter((role) => (role.tags ?? []).includes('international-engagements'))
+  .sort((a, b) => {
+    const aDate = role.span?.start?.date ? new Date(role.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    const bDate = b.span?.start?.date ? new Date(b.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    return aDate - bDate;
+  });
+
+const diplomacyEvents = events
+  .filter((event) => (event.categories ?? []).includes('international') || (event.categories ?? []).includes('international-engagements'))
+  .sort((a, b) => {
+    const aDate = a.span?.start?.date ? new Date(a.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    const bDate = b.span?.start?.date ? new Date(b.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    return aDate - bDate;
+  })
+  .slice(0, 6)
+  .map((event) => ({
+    ...event,
+    locationName: event.location?.location_id ? locationMap.get(event.location.location_id)?.name : undefined
+  }));
+
+const mapLocationIds = Array.from(
+  new Set(
+    diplomacyEvents
+      .map((event) => event.location?.location_id)
+      .filter((value): value is string => Boolean(value))
+  )
+);
+
+const sections = new Map(pageEntry.data.sections.map((section) => [section.id, section]));
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="diplomacy-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="diplomacy-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="diplomacy-narrative">
+    <h2 id="diplomacy-narrative" class="visually-hidden">Narrative overview</h2>
+    <Content />
+  </article>
+
+  {sections.get('envoy-roles') && (
+    <section class="site-section" id="envoy-roles" aria-labelledby="envoy-roles-title">
+      <p class="site-section__eyebrow">{sections.get('envoy-roles')?.eyebrow}</p>
+      <h2 id="envoy-roles-title" class="site-section__title">{sections.get('envoy-roles')?.title}</h2>
+      {sections.get('envoy-roles')?.summary && <p class="site-section__intro">{sections.get('envoy-roles')?.summary}</p>}
+      <div class="card-stack">
+        {envoyRoles.map((role) => {
+          const roleSources = role.sources ?? [];
+          const sourceMetas = mapSourceIds(roleSources.map((source) => source.source_id));
+          const start = role.span?.start?.date ? new Date(role.span.start.date) : undefined;
+          const end = role.span?.end?.date ? new Date(role.span.end.date) : undefined;
+          return (
+            <article class="role-card">
+              <header>
+                <h3>{role.title}</h3>
+                <p class="role-card__meta">
+                  {start && <time dateTime={role.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                  {start && end && ' – '}
+                  {end && <time dateTime={role.span?.end?.date}>{end.toISOString().slice(0, 10)}</time>}
+                  {role.organization && ` · ${role.organization}`}
+                </p>
+              </header>
+              {role.responsibilities?.en && <p>{role.responsibilities.en}</p>}
+              {sourceMetas.length > 0 && (
+                <footer class="citation-footer" aria-label={`Sources for ${role.title}`}>
+                  <span>Sources:</span>
+                  <ul>
+                    {sourceMetas.map((source) => (
+                      <li>
+                        {source.url ? (
+                          <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                        ) : (
+                          <span>{source.publisher ?? source.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </footer>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  {sections.get('diplomatic-events') && (
+    <section class="site-section" id="diplomatic-events" aria-labelledby="diplomatic-events-title">
+      <p class="site-section__eyebrow">{sections.get('diplomatic-events')?.eyebrow}</p>
+      <h2 id="diplomatic-events-title" class="site-section__title">{sections.get('diplomatic-events')?.title}</h2>
+      {sections.get('diplomatic-events')?.summary && (
+        <p class="site-section__intro">{sections.get('diplomatic-events')?.summary}</p>
+      )}
+      <ul class="milestone-list">
+        {diplomacyEvents.map((event) => {
+          const eventSources = event.sources ?? [];
+          const sourceMetas = mapSourceIds(eventSources.map((source) => source.source_id));
+          const start = event.span?.start?.date ? new Date(event.span.start.date) : undefined;
+          return (
+            <li>
+              <h3>{event.title}</h3>
+              <p class="milestone-list__meta">
+                {start && <time dateTime={event.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                {event.locationName && ` · ${event.locationName}`}
+              </p>
+              {event.summary && <p>{event.summary}</p>}
+              {sourceMetas.length > 0 && (
+                <p class="milestone-list__sources">
+                  Sources:{' '}
+                  {sourceMetas.map((source, index) => (
+                    <>
+                      {index > 0 && ', '}
+                      {source.url ? (
+                        <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                      ) : (
+                        source.publisher ?? source.title
+                      )}
+                    </>
+                  ))}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {sections.get('development-links') && mapLocationIds.length > 0 && (
+    <section class="site-section" id="development-links" aria-labelledby="development-links-title">
+      <p class="site-section__eyebrow">{sections.get('development-links')?.eyebrow}</p>
+      <h2 id="development-links-title" class="site-section__title">{sections.get('development-links')?.title}</h2>
+      {sections.get('development-links')?.summary && (
+        <p class="site-section__intro">{sections.get('development-links')?.summary}</p>
+      )}
+      <div class="location-grid">
+        {mapLocationIds.map((locationId) => (
+          <LocationMap locationId={locationId} zoom={6} showMetadata={false} />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.card-stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.role-card {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-subtle);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.role-card__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.citation-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+}
+
+.citation-footer > span {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.citation-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.citation-footer li a,
+.citation-footer li span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-surface-highlight);
+  color: var(--color-brand-secondary);
+  text-decoration: none;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard),
+    border-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.citation-footer li a:hover,
+.citation-footer li a:focus-visible {
+  background: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-brand-secondary);
+}
+
+.milestone-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.milestone-list__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.milestone-list__sources {
+  margin: 0;
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.location-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .location-grid {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

@@ -1,0 +1,240 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { PolicyEntry } from '@types/content';
+import { mapSourceIds } from '@utils/sources';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'policies');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+
+const policyModules = import.meta.glob<string>('../../content/policies/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const policies = Object.values(policyModules)
+  .map((content) => parse(content) as PolicyEntry)
+  .sort((a, b) => a.title.localeCompare(b.title, 'en'));
+
+const sections = new Map(pageEntry.data.sections.map((section) => [section.id, section]));
+const updatedAt = pageEntry.data.updated.toISOString();
+
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="policies-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="policies-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="policies-narrative">
+    <h2 id="policies-narrative" class="visually-hidden">Narrative overview</h2>
+    <Content />
+  </article>
+
+  {sections.get('policy-cards') && (
+    <section class="site-section" id="policy-cards" aria-labelledby="policy-cards-title">
+      <p class="site-section__eyebrow">{sections.get('policy-cards')?.eyebrow}</p>
+      <h2 id="policy-cards-title" class="site-section__title">{sections.get('policy-cards')?.title}</h2>
+      {sections.get('policy-cards')?.summary && <p class="site-section__intro">{sections.get('policy-cards')?.summary}</p>}
+      <div class="card-grid">
+        {policies.map((policy) => {
+          const policySources = policy.sources ?? [];
+          const sourceMetas = mapSourceIds(policySources.map((source) => source.source_id));
+          return (
+            <article class="policy-card">
+              <h3>{policy.title}</h3>
+              <p>{policy.summary}</p>
+              {policy.narrative?.en && <p>{policy.narrative.en}</p>}
+              {policy.stance_over_time && policy.stance_over_time.length > 0 && (
+                <ul class="stance-list">
+                  {policy.stance_over_time.map((stance, index) => {
+                    const stanceSources = stance.sources ?? [];
+                    const stanceMetas = mapSourceIds(stanceSources.map((source) => source.source_id));
+                    const start = stance.span?.start?.date ? new Date(stance.span.start.date) : undefined;
+                    const end = stance.span?.end?.date ? new Date(stance.span.end.date) : undefined;
+                    return (
+                      <li>
+                        <p class="stance-list__meta">
+                          {start && <time dateTime={stance.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                          {start && end && ' – '}
+                          {end && <time dateTime={stance.span?.end?.date}>{end.toISOString().slice(0, 10)}</time>}
+                          {stance.position && ` · ${stance.position}`}
+                        </p>
+                        {stance.context && <p class="stance-list__context">{stance.context}</p>}
+                        {stanceMetas.length > 0 && (
+                          <p class="stance-list__sources">
+                            Sources:{' '}
+                            {stanceMetas.map((source, sourceIndex) => (
+                              <>
+                                {sourceIndex > 0 && ', '}
+                                {source.url ? (
+                                  <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                                ) : (
+                                  source.publisher ?? source.title
+                                )}
+                              </>
+                            ))}
+                          </p>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+              {sourceMetas.length > 0 && (
+                <footer class="citation-footer" aria-label={`Sources for ${policy.title}`}>
+                  <span>Sources:</span>
+                  <ul>
+                    {sourceMetas.map((source) => (
+                      <li>
+                        {source.url ? (
+                          <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                        ) : (
+                          <span>{source.publisher ?? source.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </footer>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  {sections.get('related-material') && (
+    <section class="site-section" id="related-material" aria-labelledby="related-material-title">
+      <p class="site-section__eyebrow">{sections.get('related-material')?.eyebrow}</p>
+      <h2 id="related-material-title" class="site-section__title">{sections.get('related-material')?.title}</h2>
+      {sections.get('related-material')?.summary && (
+        <p class="site-section__intro">{sections.get('related-material')?.summary}</p>
+      )}
+      <p class="related-links">
+        Connect with the <a href="/speeches">speech archive</a> for verbatim references and explore the
+        <a href="/timeline">timeline</a> to see how policy milestones align with events.
+      </p>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.card-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.policy-card {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-subtle);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.stance-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.stance-list__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.stance-list__context {
+  margin: 0;
+}
+
+.stance-list__sources {
+  margin: 0;
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.citation-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+}
+
+.citation-footer > span {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.citation-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.citation-footer li a,
+.citation-footer li span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-surface-highlight);
+  color: var(--color-brand-secondary);
+  text-decoration: none;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard),
+    border-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.citation-footer li a:hover,
+.citation-footer li a:focus-visible {
+  background: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-brand-secondary);
+}
+
+.related-links {
+  font-family: var(--font-family-sans);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

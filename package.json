@@ -1,0 +1,50 @@
+{
+  "name": "raila-odinga-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "npm run lint && npm run build",
+    "validate:sources": "node scripts/validate-sources.js",
+    "test:perf": "node scripts/run-lighthouse.mjs",
+    "test:a11y": "node scripts/run-axe.mjs",
+    "test:quality": "node scripts/run-lighthouse.mjs && node scripts/run-axe.mjs --skip-build"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.3",
+    "@astrojs/sitemap": "^3.1.3",
+    "astro": "^4.6.0",
+    "sharp": "^0.33.2"
+  },
+  "devDependencies": {
+    "@axe-core/puppeteer": "^4.9.1",
+    "@eslint/js": "^8.57.0",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "astro-eslint-parser": "^1.2.2",
+    "axe-core": "^4.9.1",
+    "chrome-launcher": "^1.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-astro": "^0.31.3",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-simple-import-sort": "^12.0.0",
+    "globby": "^14.0.1",
+    "lighthouse": "^12.2.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.12.0",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "puppeteer": "^23.1.0",
+    "typescript": "~5.5.4",
+    "typescript-eslint": "^7.8.0",
+    "yaml": "^2.5.1"
+  }
+}

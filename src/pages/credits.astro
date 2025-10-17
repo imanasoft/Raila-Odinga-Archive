@@ -1,0 +1,155 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SourceList from '@components/SourceList.astro';
+import { getEntry } from 'astro:content';
+import { primaryNav } from '@config/navigation';
+import { getAllSources, getCoverageAreas, mapSourceIds } from '@utils/sources';
+
+const credits = await getEntry('pages', 'credits');
+const { Content } = await credits.render();
+
+const navItems = [...primaryNav];
+const sections = credits.data.sections ?? [];
+
+const sources = getAllSources();
+const totalSources = sources.length;
+
+const coverageAreas = getCoverageAreas();
+
+const coverageDetails = coverageAreas.map((area) => {
+  const uniqueIds = Array.from(new Set(area.sourceIds));
+  const resolvedSources = mapSourceIds(uniqueIds);
+  const missingIds = uniqueIds.filter((id) => !resolvedSources.some((source) => source.id === id));
+  const meetsTarget =
+    area.minimumSources === undefined ? true : resolvedSources.length >= area.minimumSources;
+
+  return {
+    ...area,
+    sourceIds: uniqueIds,
+    sources: resolvedSources,
+    missingIds,
+    meetsTarget
+  };
+});
+
+const formatAreaName = (value: string) =>
+  value
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(' ');
+
+const formatStatus = (entry: (typeof coverageDetails)[number]) => {
+  if (entry.minimumSources === undefined) {
+    return 'Tracked';
+  }
+
+  if (entry.meetsTarget) {
+    return 'Meets target';
+  }
+
+  const remaining = Math.max((entry.minimumSources ?? 0) - entry.sources.length, 0);
+  return `Needs ${remaining} more`;
+};
+---
+<BaseLayout
+  title={credits.data.title}
+  description={credits.data.description}
+  updatedAt={credits.data.updated.toISOString()}
+  navItems={navItems}
+>
+  <article class="prose" aria-labelledby="credits-title">
+    <h1 id="credits-title">{credits.data.title}</h1>
+    <Content />
+  </article>
+
+  {sections.length > 0 && (
+    <div class="site-grid credits-overview">
+      {sections.map((section) => (
+        <section class="site-section" id={section.id} aria-labelledby={`${section.id}-title`}>
+          {section.eyebrow && <p class="site-section__eyebrow">{section.eyebrow}</p>}
+          <h2 id={`${section.id}-title`} class="site-section__title">{section.title}</h2>
+          {section.summary && <p class="site-section__intro">{section.summary}</p>}
+        </section>
+      ))}
+    </div>
+  )}
+
+  <section class="site-section" id="source-catalogue" aria-labelledby="source-catalogue-title">
+    <p class="site-section__eyebrow">Catalogue</p>
+    <h2 id="source-catalogue-title" class="site-section__title">Source catalogue</h2>
+    <p class="site-section__intro">
+      {`The archive currently tracks ${totalSources} sourced references spanning biographies, journalism, official records, and multimedia.`}
+    </p>
+    <SourceList sources={sources} />
+  </section>
+
+  <section class="site-section" id="coverage-matrix" aria-labelledby="coverage-matrix-title">
+    <p class="site-section__eyebrow">Coverage</p>
+    <h2 id="coverage-matrix-title" class="site-section__title">Coverage matrix</h2>
+    <p class="site-section__intro">
+      Minimum source targets for each editorial focus area are evaluated automatically from the shared source registry so gaps
+      can be resolved before publication.
+    </p>
+    <div class="source-coverage">
+      <table class="source-coverage__table">
+        <thead>
+          <tr>
+            <th scope="col">Focus area</th>
+            <th scope="col">Minimum sources</th>
+            <th scope="col">Current count</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tracked sources</th>
+          </tr>
+        </thead>
+        <tbody>
+          {coverageDetails.map((entry) => (
+            <tr>
+              <th scope="row">{formatAreaName(entry.area)}</th>
+              <td>{entry.minimumSources ?? '—'}</td>
+              <td>{entry.sources.length}</td>
+              <td>
+                <span
+                  class={`source-coverage__status ${
+                    entry.meetsTarget
+                      ? 'source-coverage__status--ok'
+                      : 'source-coverage__status--warn'
+                  }`}
+                >
+                  {formatStatus(entry)}
+                </span>
+                {entry.missingIds.length > 0 && (
+                  <div class="source-coverage__missing">
+                    Missing IDs:{' '}
+                    {entry.missingIds.map((id, index) => (
+                      <>
+                        {index > 0 && ', '}
+                        <code>{id}</code>
+                      </>
+                    ))}
+                  </div>
+                )}
+              </td>
+              <td>
+                {entry.sources.length > 0 ? (
+                  <ul class="source-coverage__source-list">
+                    {entry.sources.map((source) => (
+                      <li>
+                        {source.url ? <a href={source.url}>{source.title}</a> : source.title}
+                        <span class="source-coverage__source-id">
+                          <code>{source.id}</code>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <span class="source-coverage__empty">No linked sources yet.</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</BaseLayout>

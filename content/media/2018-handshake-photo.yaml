@@ -1,0 +1,21 @@
+id: media-2018-handshake-photo
+slug: 2018-handshake-photo
+type: image
+title: "Handshake between President Kenyatta and Raila Odinga"
+description: "Photograph capturing President Uhuru Kenyatta and Raila Odinga announcing their reconciliation on 9 March 2018."
+credit: "State House Kenya / Wikimedia Commons"
+license: "CC BY 2.0"
+capture_date: 2018-03-09
+creator: "State House Kenya"
+source_asset_url: "https://commons.wikimedia.org/wiki/File:Handshake_between_President_Uhuru_Kenyatta_and_Raila_Odinga.jpg"
+preview_url: "https://commons.wikimedia.org/wiki/Special:FilePath/Handshake_between_President_Uhuru_Kenyatta_and_Raila_Odinga.jpg?width=1600"
+alt_text: "President Uhuru Kenyatta and Raila Odinga clasp hands during their 2018 reconciliation announcement in Nairobi."
+caption: "The March 2018 handshake set the stage for the Building Bridges Initiative and a new round of bipartisan reforms."
+related_events:
+  - id: event-2018-handshake-announcement
+related_policies:
+  - id: policy-national-reconciliation
+sources:
+  - source_id: reuters-2018-handshake
+    summary: "Confirms the timing, participants, and statements from the handshake ceremony."
+updated_at: 2025-10-17

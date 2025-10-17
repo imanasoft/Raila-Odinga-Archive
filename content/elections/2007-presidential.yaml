@@ -1,0 +1,51 @@
+id: election-2007-presidential
+slug: 2007-presidential
+title: "2007 Kenyan Presidential Election"
+cycle:
+  year: 2007
+  round: "General"
+  date: 2007-12-27
+position: "President of Kenya"
+jurisdiction: "Kenya"
+coalition: "Orange Democratic Movement"
+running_mates:
+  - id: person-musalia-mudavadi
+platform_summary:
+  en: |
+    Campaigned on constitutional reform, economic equity, and institutional accountability, pledging to implement the Bomas Draft constitution.
+results:
+  status: contested
+  official_vote_share: 46.1
+  vote_margin: -2.0
+  turnout_percentage: 69.0
+  result_date: 2007-12-30
+outcome: "Disputed result declared for incumbent"
+legal_challenges:
+  - summary: "ODM challenged the announced results citing tallying irregularities and access restrictions."
+    span:
+      start:
+        date: 2007-12-30
+      end:
+        date: 2008-02-28
+        description: "National Accord signed"
+    status: "Mediation settlement"
+    sources:
+      - source_id: guardian-2007-election
+        summary: "Reported ODM's rejection of the declared result."
+      - source_id: hrw-2008-violence
+        summary: "Documented post-election crisis context and negotiation timeline."
+related_events:
+  - id: event-2008-grand-coalition
+policies:
+  - id: policy-constitution-reform
+tags:
+  - elections
+  - political-journey
+sources:
+  - source_id: guardian-2007-election
+    quote: "Raila Odinga rejected the Electoral Commission's announcement and alleged manipulation of tallies."
+  - source_id: hrw-2008-violence
+    summary: "Provides timeline of negotiations leading to the National Accord."
+  - source_id: bbc-kenya-election-2022
+    summary: "Offers retrospective analysis of the 2007 contest and its aftermath."
+updated_at: 2025-10-15

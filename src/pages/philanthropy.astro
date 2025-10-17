@@ -1,0 +1,282 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { PolicyEntry, TimelineEventEntry } from '@types/content';
+import { mapSourceIds } from '@utils/sources';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'philanthropy');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+
+const eventModules = import.meta.glob<string>('../../content/events/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const policyModules = import.meta.glob<string>('../../content/policies/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const events = Object.values(eventModules).map((content) => parse(content) as TimelineEventEntry);
+const policies = Object.values(policyModules).map((content) => parse(content) as PolicyEntry);
+
+const philanthropyEvents = events
+  .filter((event) => (event.categories ?? []).includes('philanthropy'))
+  .sort((a, b) => {
+    const aDate = a.span?.start?.date ? new Date(a.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    const bDate = b.span?.start?.date ? new Date(b.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    return aDate - bDate;
+  });
+
+const philanthropyPolicies = policies.filter((policy) => (policy.tags ?? []).includes('philanthropy'));
+
+const partnerSources = Array.from(
+  new Map(
+    [...philanthropyEvents, ...philanthropyPolicies]
+      .flatMap((item) => (item.sources ?? []).map((source) => source.source_id))
+      .map((id) => [id, mapSourceIds([id])[0]])
+      .filter((entry): entry is [string, ReturnType<typeof mapSourceIds>[number]] => Boolean(entry[1]))
+  ).values()
+);
+
+const sections = new Map(pageEntry.data.sections.map((section) => [section.id, section]));
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="philanthropy-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="philanthropy-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="philanthropy-narrative">
+    <h2 id="philanthropy-narrative" class="visually-hidden">Narrative overview</h2>
+    <Content />
+  </article>
+
+  {sections.get('programmes') && (
+    <section class="site-section" id="programmes" aria-labelledby="programmes-title">
+      <p class="site-section__eyebrow">{sections.get('programmes')?.eyebrow}</p>
+      <h2 id="programmes-title" class="site-section__title">{sections.get('programmes')?.title}</h2>
+      {sections.get('programmes')?.summary && <p class="site-section__intro">{sections.get('programmes')?.summary}</p>}
+      <ul class="milestone-list">
+        {philanthropyEvents.map((event) => {
+          const eventSources = event.sources ?? [];
+          const sourceMetas = mapSourceIds(eventSources.map((source) => source.source_id));
+          const start = event.span?.start?.date ? new Date(event.span.start.date) : undefined;
+          return (
+            <li>
+              <h3>{event.title}</h3>
+              <p class="milestone-list__meta">
+                {start && <time dateTime={event.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                {event.summary && ` · ${event.summary}`}
+              </p>
+              {event.description?.en && <p>{event.description.en}</p>}
+              {sourceMetas.length > 0 && (
+                <p class="milestone-list__sources">
+                  Sources:{' '}
+                  {sourceMetas.map((source, index) => (
+                    <>
+                      {index > 0 && ', '}
+                      {source.url ? (
+                        <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                      ) : (
+                        source.publisher ?? source.title
+                      )}
+                    </>
+                  ))}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {sections.get('partnerships') && (
+    <section class="site-section" id="partnerships" aria-labelledby="partnerships-title">
+      <p class="site-section__eyebrow">{sections.get('partnerships')?.eyebrow}</p>
+      <h2 id="partnerships-title" class="site-section__title">{sections.get('partnerships')?.title}</h2>
+      {sections.get('partnerships')?.summary && <p class="site-section__intro">{sections.get('partnerships')?.summary}</p>}
+      <div class="card-stack">
+        {philanthropyPolicies.map((policy) => {
+          const policySources = policy.sources ?? [];
+          const sourceMetas = mapSourceIds(policySources.map((source) => source.source_id));
+          return (
+            <article class="role-card">
+              <h3>{policy.title}</h3>
+              <p>{policy.summary}</p>
+              {policy.narrative?.en && <p>{policy.narrative.en}</p>}
+              {sourceMetas.length > 0 && (
+                <footer class="citation-footer" aria-label={`Sources for ${policy.title}`}>
+                  <span>Sources:</span>
+                  <ul>
+                    {sourceMetas.map((source) => (
+                      <li>
+                        {source.url ? (
+                          <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                        ) : (
+                          <span>{source.publisher ?? source.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </footer>
+              )}
+            </article>
+          );
+        })}
+      </div>
+      {partnerSources.length > 0 && (
+        <div class="partner-sources" aria-label="Partner organisations">
+          <h3>Key partners</h3>
+          <ul>
+            {partnerSources.map((source) => (
+              <li>
+                {source.url ? (
+                  <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                ) : (
+                  <span>{source.publisher ?? source.title}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.milestone-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.milestone-list__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.milestone-list__sources {
+  margin: 0;
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.card-stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.role-card {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-subtle);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.citation-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+}
+
+.citation-footer > span {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.citation-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.citation-footer li a,
+.citation-footer li span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-surface-highlight);
+  color: var(--color-brand-secondary);
+  text-decoration: none;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard),
+    border-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.citation-footer li a:hover,
+.citation-footer li a:focus-visible {
+  background: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-brand-secondary);
+}
+
+.partner-sources {
+  margin-top: var(--space-5);
+}
+
+.partner-sources h3 {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-200);
+  margin-bottom: var(--space-2);
+}
+
+.partner-sources ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.partner-sources a {
+  text-decoration: none;
+}
+
+.partner-sources a:hover,
+.partner-sources a:focus-visible {
+  text-decoration: underline;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

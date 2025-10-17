@@ -1,0 +1,17 @@
+id: familymember-jaramogi-oginga-odinga
+slug: jaramogi-oginga-odinga
+person_id: person-jaramogi-oginga-odinga
+display_name: "Jaramogi Oginga Odinga"
+relationships:
+  children:
+    - id: familymember-raila-odinga
+lineage_notes: "Kenya's first Vice President and father to Raila Odinga."
+lineage_order:
+  generation: 1
+  birth_order: 1
+tags:
+  - lineage
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Confirms paternal relationship."
+updated_at: 2025-10-15

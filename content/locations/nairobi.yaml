@@ -1,0 +1,14 @@
+id: location-nairobi
+slug: nairobi
+name: "Nairobi"
+type: city
+description: "Kenya's capital city and seat of national government."
+geo:
+  latitude: -1.2864
+  longitude: 36.8172
+  precision: city
+country_code: KE
+sources:
+  - source_id: kenya-yearbook-2018
+    summary: "Provides geographic and governance details for Nairobi."
+updated_at: 2025-10-15

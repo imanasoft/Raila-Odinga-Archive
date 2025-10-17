@@ -1,0 +1,351 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { ElectionEntry, RoleEntry, TimelineEventEntry } from '@types/content';
+import { mapSourceIds } from '@utils/sources';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'political-journey');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+
+const roleModules = import.meta.glob<string>('../../content/roles/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const electionModules = import.meta.glob<string>('../../content/elections/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const eventModules = import.meta.glob<string>('../../content/events/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const roles = Object.values(roleModules).map((content) => parse(content) as RoleEntry);
+const elections = Object.values(electionModules).map((content) => parse(content) as ElectionEntry);
+const events = Object.values(eventModules).map((content) => parse(content) as TimelineEventEntry);
+
+const odingaRoles = roles
+  .filter((role) => role.holders?.some((holder) => holder.person_id === 'person-raila-odinga'))
+  .sort((a, b) => {
+    const aDate = a.span?.start?.date ? new Date(a.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    const bDate = b.span?.start?.date ? new Date(b.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    return aDate - bDate;
+  });
+
+const odingaElections = elections
+  .filter((entry) => entry.tags?.includes('elections'))
+  .sort((a, b) => (b.cycle?.year ?? 0) - (a.cycle?.year ?? 0));
+
+const milestoneEvents = events
+  .filter((event) =>
+    (event.categories ?? []).includes('political-journey') ||
+    event.related_people?.some((person) => person.id === 'person-raila-odinga')
+  )
+  .sort((a, b) => {
+    const aDate = a.span?.start?.date ? new Date(a.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    const bDate = b.span?.start?.date ? new Date(b.span.start.date).getTime() : Number.POSITIVE_INFINITY;
+    return aDate - bDate;
+  })
+  .slice(0, 6);
+
+const sections = new Map(pageEntry.data.sections.map((section) => [section.id, section]));
+const updatedAt = pageEntry.data.updated.toISOString();
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="political-journey-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="political-journey-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="political-journey-narrative">
+    <h2 id="political-journey-narrative" class="visually-hidden">Narrative overview</h2>
+    <Content />
+  </article>
+
+  {sections.get('roles') && (
+    <section class="site-section" id="roles" aria-labelledby="roles-title">
+      <p class="site-section__eyebrow">{sections.get('roles')?.eyebrow}</p>
+      <h2 id="roles-title" class="site-section__title">{sections.get('roles')?.title}</h2>
+      {sections.get('roles')?.summary && <p class="site-section__intro">{sections.get('roles')?.summary}</p>}
+      <div class="card-stack">
+        {odingaRoles.map((role) => {
+          const roleSources = role.sources ?? [];
+          const sourceMetas = mapSourceIds(roleSources.map((source) => source.source_id));
+          const start = role.span?.start?.date ? new Date(role.span.start.date) : undefined;
+          const end = role.span?.end?.date ? new Date(role.span.end.date) : undefined;
+          return (
+            <article class="role-card">
+              <header>
+                <h3>{role.title}</h3>
+                <p class="role-card__meta">
+                  {start && <time dateTime={role.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                  {start && end && ' – '}
+                  {end && <time dateTime={role.span?.end?.date}>{end.toISOString().slice(0, 10)}</time>}
+                  {role.organization && <span> · {role.organization}</span>}
+                </p>
+              </header>
+              {role.responsibilities?.en && <p>{role.responsibilities.en}</p>}
+              {sourceMetas.length > 0 && (
+                <footer class="citation-footer" aria-label={`Sources for ${role.title}`}>
+                  <span>Sources:</span>
+                  <ul>
+                    {sourceMetas.map((source) => (
+                      <li>
+                        {source.url ? (
+                          <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                        ) : (
+                          <span>{source.publisher ?? source.title}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </footer>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  {sections.get('elections') && (
+    <section class="site-section" id="elections" aria-labelledby="elections-title">
+      <p class="site-section__eyebrow">{sections.get('elections')?.eyebrow}</p>
+      <h2 id="elections-title" class="site-section__title">{sections.get('elections')?.title}</h2>
+      {sections.get('elections')?.summary && <p class="site-section__intro">{sections.get('elections')?.summary}</p>}
+      <div class="table-wrapper" role="region" aria-live="polite">
+        <table>
+          <caption class="visually-hidden">Summary of presidential elections contested by Raila Odinga</caption>
+          <thead>
+            <tr>
+              <th scope="col">Year</th>
+              <th scope="col">Coalition</th>
+              <th scope="col">Outcome</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {odingaElections.map((entry) => {
+              const entrySources = entry.sources ?? [];
+              const sources = mapSourceIds(entrySources.map((source) => source.source_id));
+              return (
+                <tr>
+                  <td>{entry.cycle?.year ?? '—'}</td>
+                  <td>{entry.coalition ?? '—'}</td>
+                  <td>{entry.outcome ?? '—'}</td>
+                  <td>
+                    {entry.results?.status ?? '—'}
+                    {sources.length > 0 && (
+                      <span class="table-sources">
+                        {sources.map((source, index) => (
+                          <>
+                            {index > 0 && ', '}
+                            {source.url ? (
+                              <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                            ) : (
+                              source.publisher ?? source.title
+                            )}
+                          </>
+                        ))}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
+  {sections.get('milestones') && (
+    <section class="site-section" id="milestones" aria-labelledby="milestones-title">
+      <p class="site-section__eyebrow">{sections.get('milestones')?.eyebrow}</p>
+      <h2 id="milestones-title" class="site-section__title">{sections.get('milestones')?.title}</h2>
+      {sections.get('milestones')?.summary && <p class="site-section__intro">{sections.get('milestones')?.summary}</p>}
+      <ul class="milestone-list">
+        {milestoneEvents.map((event) => {
+          const eventSources = event.sources ?? [];
+          const sources = mapSourceIds(eventSources.map((source) => source.source_id));
+          const start = event.span?.start?.date ? new Date(event.span.start.date) : undefined;
+          return (
+            <li>
+              <h3>{event.title}</h3>
+              <p class="milestone-list__meta">
+                {start && <time dateTime={event.span?.start?.date}>{start.toISOString().slice(0, 10)}</time>}
+                {event.summary && ` · ${event.summary}`}
+              </p>
+              {sources.length > 0 && (
+                <p class="milestone-list__sources">
+                  Sources:{' '}
+                  {sources.map((source, index) => (
+                    <>
+                      {index > 0 && ', '}
+                      {source.url ? (
+                        <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                      ) : (
+                        source.publisher ?? source.title
+                      )}
+                    </>
+                  ))}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <p class="milestone-list__cta">
+        Continue exploring the <a href="/timeline">interactive timeline</a> for a complete chronology.
+      </p>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.card-stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.role-card {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-subtle);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.role-card__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.citation-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+}
+
+.citation-footer > span {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.citation-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.citation-footer li a,
+.citation-footer li span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-surface-highlight);
+  color: var(--color-brand-secondary);
+  text-decoration: none;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard),
+    border-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.citation-footer li a:hover,
+.citation-footer li a:focus-visible {
+  background: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-brand-secondary);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  border-bottom: 1px solid var(--color-border-default);
+  padding: var(--space-2);
+  text-align: left;
+}
+
+.table-wrapper th {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.table-sources {
+  display: block;
+  font-size: var(--font-size-75);
+  margin-top: var(--space-1);
+}
+
+.milestone-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.milestone-list__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.milestone-list__sources {
+  margin: 0;
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.milestone-list__cta {
+  margin-top: var(--space-4);
+  font-family: var(--font-family-sans);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

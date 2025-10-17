@@ -1,0 +1,31 @@
+id: event-2020-bbi-report
+slug: 2020-bbi-report
+title: "Release of the Building Bridges Initiative report"
+span:
+  start:
+    date: 2020-10-26
+  precision: day
+summary: "The BBI taskforce presented its report outlining proposals for constitutional and policy reforms."
+description:
+  en: |
+    The Building Bridges Initiative steering committee delivered its report at the Bomas of Kenya, recommending constitutional amendments on executive structure, electoral reforms, and resource allocation.
+location:
+  location_id: location-nairobi
+categories:
+  - governance
+  - policies
+related_people:
+  - id: person-raila-odinga
+related_policies:
+  - id: policy-national-reconciliation
+timeline_display:
+  intensity: medium
+  filters:
+    - policy
+    - constitutional-reform
+sources:
+  - source_id: economist-2024-profile
+    summary: "Summarises key recommendations and Odinga's advocacy."
+  - source_id: kenya-supreme-court-2017
+    summary: "Cited in judicial deliberations on the constitutional amendment process."
+updated_at: 2025-10-15

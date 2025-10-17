@@ -1,0 +1,33 @@
+id: role-prime-minister-2008
+slug: prime-minister-2008
+title: "Prime Minister of the Republic of Kenya"
+organization: "Government of Kenya"
+organization_type: "executive"
+span:
+  start:
+    date: 2008-04-17
+  end:
+    date: 2013-04-09
+appointing_authority: "Coalition agreement between President Mwai Kibaki and ODM"
+responsibilities:
+  en: |
+    Coordinated government ministries under the Grand Coalition framework, chaired the cabinet subcommittee on reforms, and oversaw implementation of the National Accord.
+related_events:
+  - id: event-2008-grand-coalition
+holders:
+  - person_id: person-raila-odinga
+    capacity: "Prime Minister"
+    span:
+      start:
+        date: 2008-04-17
+      end:
+        date: 2013-04-09
+tags:
+  - governance
+  - political-journey
+sources:
+  - source_id: kenya-gazette-2008-cabinet
+    quote: "Hon. Raila Amolo Odinga is hereby appointed Prime Minister in the coalition government."
+  - source_id: bbc-kenya-election-2022
+    summary: "Provides retrospective overview of Odinga's tenure as Prime Minister."
+updated_at: 2025-10-15

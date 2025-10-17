@@ -1,0 +1,188 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { HighlightEntry } from '@types/content';
+import { mapSourceIds } from '@utils/sources';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'key-highlights');
+const { Content } = await pageEntry.render();
+
+const highlightModules = import.meta.glob<string>('../../content/highlights/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+
+const highlights = Object.values(highlightModules)
+  .map((content) => parse(content) as HighlightEntry)
+  .sort((a, b) => a.title.localeCompare(b.title, 'en'));
+
+const updatedAt = pageEntry.data.updated.toISOString();
+const hero = pageEntry.data.hero;
+
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="key-highlights-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="key-highlights-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="key-highlights-article">
+    <h2 id="key-highlights-article" class="visually-hidden">Overview</h2>
+    <Content />
+  </article>
+
+  {pageEntry.data.sections.map((section) => (
+    <section class="site-section" id={section.id} aria-labelledby={`${section.id}-title`}>
+      {section.eyebrow && <p class="site-section__eyebrow">{section.eyebrow}</p>}
+      <h2 id={`${section.id}-title`} class="site-section__title">{section.title}</h2>
+      {section.summary && <p class="site-section__intro">{section.summary}</p>}
+      {section.links && (
+        <ul class="site-links">
+          {section.links.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      )}
+    </section>
+  ))}
+
+  <section class="site-section" aria-labelledby="highlight-cards">
+    <p class="site-section__eyebrow">Spotlights</p>
+    <h2 id="highlight-cards" class="site-section__title">Featured highlights</h2>
+    <div class="card-grid" role="list">
+      {highlights.map((highlight) => {
+        const sourceMetas = mapSourceIds(highlight.sources.map((source) => source.source_id));
+        return (
+          <article class="highlight-card" role="listitem">
+            <h3 class="highlight-card__title">{highlight.title}</h3>
+            {highlight.period && <p class="highlight-card__period">{highlight.period}</p>}
+            <p>{highlight.summary}</p>
+            {highlight.links && (
+              <ul class="highlight-card__links">
+                {highlight.links.map((link) => (
+                  <li><a href={link.href}>{link.label}</a></li>
+                ))}
+              </ul>
+            )}
+            {sourceMetas.length > 0 && (
+              <div class="highlight-card__sources" aria-label={`Sources for ${highlight.title}`}>
+                <span class="highlight-card__sources-label">Sources:</span>
+                <ul>
+                  {sourceMetas.map((source) => (
+                    <li>
+                      {source.url ? (
+                        <a href={source.url} rel="noopener" target="_blank">{source.publisher ?? source.title}</a>
+                      ) : (
+                        <span>{source.publisher ?? source.title}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.card-grid {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 56rem) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.highlight-card {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.highlight-card__title {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-250);
+  margin: 0;
+}
+
+.highlight-card__period {
+  font-family: var(--font-family-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.highlight-card__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.highlight-card__sources {
+  margin-top: auto;
+}
+
+.highlight-card__sources-label {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.highlight-card__sources ul {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.highlight-card__sources a {
+  text-decoration: none;
+}
+
+.highlight-card__sources a:hover,
+.highlight-card__sources a:focus-visible {
+  text-decoration: underline;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

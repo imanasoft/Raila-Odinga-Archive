@@ -1,0 +1,16 @@
+id: location-magdeburg
+slug: magdeburg
+name: "Magdeburg"
+type: city
+description: "City in Saxony-Anhalt, Germany, home to the former Technical University of Magdeburg."
+geo:
+  latitude: 52.1205
+  longitude: 11.6276
+  precision: city
+country_code: DE
+parent_location:
+  id: location-germany
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Notes Odinga's studies in Magdeburg, East Germany."
+updated_at: 2025-10-15

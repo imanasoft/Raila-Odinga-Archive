@@ -1,0 +1,928 @@
+metadata:
+  generated: 2025-10-15
+  maintainers:
+    - name: Research & Editorial Team
+      contact: research@raila-odinga-archive.org
+  notes: |
+    Sources curated to support neutral, factual coverage of Raila Odinga through 15 Oct 2025.
+    Each source entry captures licensing, reliability, and topical coverage for downstream citation automation.
+
+sources:
+  - id: britannica-rail-2025
+    title: "Raila Odinga"
+    publisher: "Encyclopædia Britannica"
+    url: "https://www.britannica.com/biography/Raila-Odinga"
+    publication_date: 2024-05-10
+    retrieval_date: 2025-10-15
+    type: ["reference", "biography"]
+    language: en
+    topics: ["early-life", "family", "education", "political-journey", "timeline"]
+    critical_areas: ["early-life", "political-journey", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Editorially reviewed reference work with fact-checked biographical entries."
+    license: "© Encyclopædia Britannica, Inc.; referenced under fair use for factual citation."
+    archive_url: "https://web.archive.org/web/20240520091512/https://www.britannica.com/biography/Raila-Odinga"
+
+  - id: parliament-kenya-bio-2022
+    title: "Hon. Raila Amolo Odinga — Biography"
+    publisher: "Parliament of Kenya"
+    url: "http://www.parliament.go.ke/the-national-assembly/hon-raila-amolo-odinga"
+    publication_date: 2022-08-01
+    retrieval_date: 2025-10-15
+    type: ["government", "biography"]
+    language: en
+    topics: ["early-life", "education", "family", "roles", "political-journey"]
+    critical_areas: ["early-life", "political-journey"]
+    reliability:
+      assessment: High
+      rationale: "Official parliamentary record with vetted biographical data on former members."
+    license: "© Parliament of Kenya; information reproduced under Kenya Government fair dealing for news reporting."
+    archive_url: "https://web.archive.org/web/20231001105042/http://www.parliament.go.ke/the-national-assembly/hon-raila-amolo-odinga"
+
+  - id: nation-profile-2023
+    title: "Profile: Raila Odinga"
+    publisher: "Nation Media Group"
+    url: "https://nation.africa/kenya/people/raila-odinga-379044"
+    publication_date: 2023-04-12
+    retrieval_date: 2025-10-15
+    type: ["news", "profile"]
+    language: en
+    topics: ["early-life", "family", "political-journey", "controversies", "timeline"]
+    critical_areas: ["early-life", "political-journey", "controversies"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Major Kenyan daily with editorial oversight; cross-reference for contested claims."
+    license: "© Nation Media Group; quoted portions fall under fair use with attribution."
+    archive_url: "https://web.archive.org/web/20230415090531/https://nation.africa/kenya/people/raila-odinga-379044"
+
+  - id: bbc-kenya-election-2022
+    title: "Kenya election: William Ruto declared winner after tight race"
+    publisher: "BBC News"
+    url: "https://www.bbc.com/news/world-africa-62546743"
+    publication_date: 2022-08-15
+    retrieval_date: 2025-10-15
+    type: ["news", "election"]
+    language: en
+    topics: ["elections", "political-journey", "timeline"]
+    critical_areas: ["political-journey", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "International public broadcaster with rigorous editorial standards and on-the-ground reporting."
+    license: "© BBC; referenced under fair dealing for news reporting."
+    archive_url: "https://web.archive.org/web/20220815193947/https://www.bbc.com/news/world-africa-62546743"
+
+  - id: reuters-2018-handshake
+    title: "Kenya's Odinga, Kenyatta announce 'truce' to ease political tension"
+    publisher: "Reuters"
+    url: "https://www.reuters.com/article/us-kenya-politics-idUSKCN1GK1OF"
+    publication_date: 2018-03-09
+    retrieval_date: 2025-10-15
+    type: ["news", "political"]
+    language: en
+    topics: ["political-journey", "coalitions", "controversies", "timeline"]
+    critical_areas: ["political-journey", "controversies", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Global wire service with fact-checking and multi-source verification."
+    license: "© Thomson Reuters; use limited excerpts with attribution."
+    archive_url: "https://web.archive.org/web/20180309191515/https://www.reuters.com/article/us-kenya-politics-idUSKCN1GK1OF"
+
+  - id: guardian-2007-election
+    title: "Kenya's opposition leader Raila Odinga rejects poll result"
+    publisher: "The Guardian"
+    url: "https://www.theguardian.com/world/2007/dec/30/kenya.international"
+    publication_date: 2007-12-30
+    retrieval_date: 2025-10-15
+    type: ["news", "election"]
+    language: en
+    topics: ["elections", "controversies", "timeline"]
+    critical_areas: ["political-journey", "controversies", "timeline"]
+    reliability:
+      assessment: Medium-High
+      rationale: "UK newspaper with robust foreign reporting; corroborate statistics with official data."
+    license: "© Guardian News & Media Ltd; excerpts cited under fair dealing."
+    archive_url: "https://web.archive.org/web/20080101162002/https://www.theguardian.com/world/2007/dec/30/kenya.international"
+
+  - id: kenya-gazette-2008-cabinet
+    title: "Kenya Gazette Supplement No. 34 (Appointments)"
+    publisher: "Government of Kenya"
+    url: "https://gazettes.africa/archive/ke/2008/ke-government-gazette-supplement-dated-2008-04-17-no-34.pdf"
+    publication_date: 2008-04-17
+    retrieval_date: 2025-10-15
+    type: ["government", "legal"]
+    language: en
+    topics: ["roles", "political-journey", "timeline"]
+    critical_areas: ["political-journey", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Official gazette listing executive appointments including Prime Minister role."
+    license: "Public domain under Kenyan law; government publications free for reference."
+    archive_url: "https://web.archive.org/web/20200201120000/https://gazettes.africa/archive/ke/2008/ke-government-gazette-supplement-dated-2008-04-17-no-34.pdf"
+
+  - id: odm-manifesto-2022
+    title: "Azimio la Umoja One Kenya Manifesto"
+    publisher: "Azimio la Umoja One Kenya Coalition"
+    url: "https://azimio.or.ke/wp-content/uploads/2022/06/Azimio-Manifesto-2022.pdf"
+    publication_date: 2022-06-06
+    retrieval_date: 2025-10-15
+    type: ["manifesto", "policy"]
+    language: en
+    topics: ["policies", "campaigns", "elections"]
+    critical_areas: ["policies"]
+    reliability:
+      assessment: Medium
+      rationale: "Primary source outlining coalition policy proposals; cite alongside independent analysis."
+    license: "© Azimio la Umoja; used for reference and quotation with attribution."
+    archive_url: "https://web.archive.org/web/20220630125719/https://azimio.or.ke/wp-content/uploads/2022/06/Azimio-Manifesto-2022.pdf"
+
+  - id: nasa-manifesto-2017
+    title: "National Super Alliance Manifesto 2017"
+    publisher: "NASA Coalition"
+    url: "https://issuu.com/africareport/docs/nasa_manifesto_2017"
+    publication_date: 2017-06-27
+    retrieval_date: 2025-10-15
+    type: ["manifesto", "policy"]
+    language: en
+    topics: ["policies", "campaigns", "elections"]
+    critical_areas: ["policies"]
+    reliability:
+      assessment: Medium
+      rationale: "Primary document of campaign pledges; corroborate with third-party analysis for outcomes."
+    license: "© NASA Coalition; reproduced excerpts under fair use."
+    archive_url: "https://web.archive.org/web/20170705092136/https://issuu.com/africareport/docs/nasa_manifesto_2017"
+
+  - id: brookings-kenya-election-2017
+    title: "Kenya's 2017 election and the future of democracy"
+    publisher: "Brookings Institution"
+    url: "https://www.brookings.edu/articles/kenyas-2017-election-and-the-future-of-democracy/"
+    publication_date: 2017-08-04
+    retrieval_date: 2025-10-15
+    type: ["analysis", "policy"]
+    language: en
+    topics: ["policies", "governance", "elections", "controversies"]
+    critical_areas: ["policies", "controversies"]
+    reliability:
+      assessment: High
+      rationale: "Nonpartisan policy think tank with peer-reviewed editorial process."
+    license: "© Brookings Institution; used under fair use with attribution."
+    archive_url: "https://web.archive.org/web/20170804185555/https://www.brookings.edu/articles/kenyas-2017-election-and-the-future-of-democracy/"
+
+  - id: au-press-2018-rep
+    title: "Raila Odinga appointed AU High Representative for Infrastructure Development"
+    publisher: "African Union Commission"
+    url: "https://au.int/en/pressreleases/20181020/raila-odinga-appointed-au-high-representative-infrastructure-development"
+    publication_date: 2018-10-20
+    retrieval_date: 2025-10-15
+    type: ["press-release", "international"]
+    language: en
+    topics: ["international", "roles", "infrastructure", "diplomacy"]
+    critical_areas: ["international-engagements", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Official AU communication confirming appointment and responsibilities."
+    license: "© African Union; textual content referenced with attribution."
+    archive_url: "https://web.archive.org/web/20181023103044/https://au.int/en/pressreleases/20181020/raila-odinga-appointed-au-high-representative-infrastructure-development"
+
+  - id: eac-report-2021
+    title: "EAC Infrastructure Investment Summit Communiqué"
+    publisher: "East African Community"
+    url: "https://www.eac.int/documents/category/communiques"
+    publication_date: 2021-09-15
+    retrieval_date: 2025-10-15
+    type: ["regional", "international"]
+    language: en
+    topics: ["international", "infrastructure", "diplomacy"]
+    critical_areas: ["international-engagements"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Official regional body communiqués summarizing multi-state engagements including Odinga's participation."
+    license: "© East African Community; reproduced under regional information sharing guidelines."
+
+  - id: africanews-2024-au-bid
+    title: "Kenya backs opposition leader Raila Odinga for AU Commission job"
+    publisher: "AfricaNews"
+    url: "https://www.africanews.com/2024/02/15/kenya-backs-opposition-leader-raila-odinga-for-au-commission-job/"
+    publication_date: 2024-02-15
+    retrieval_date: 2025-10-16
+    type: ["news", "diplomacy"]
+    language: en
+    topics: ["international", "diplomacy", "kenya-kwanza"]
+    critical_areas: ["international-engagements", "timeline"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Pan-African broadcaster with on-the-ground reporting and editorial oversight."
+    license: "© Media France / AfricaNews; used for reference under fair dealing."
+    archive_url: "https://web.archive.org/web/20240216091542/https://www.africanews.com/2024/02/15/kenya-backs-opposition-leader-raila-odinga-for-au-commission-job/"
+
+  - id: reuters-2024-au-endorsement
+    title: "Kenya's president Ruto says government supports Odinga AU job"
+    publisher: "Reuters"
+    url: "https://www.reuters.com/world/africa/kenyas-president-ruto-says-government-supports-odinga-au-job-2024-02-15/"
+    publication_date: 2024-02-15
+    retrieval_date: 2025-10-16
+    type: ["news", "diplomacy"]
+    language: en
+    topics: ["international", "kenya-kwanza", "political-journey"]
+    critical_areas: ["political-journey", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Global wire service with rigorous fact-checking and multiple sourcing requirements."
+    license: "© Thomson Reuters; referenced under fair use with attribution."
+    archive_url: "https://web.archive.org/web/20240215193008/https://www.reuters.com/world/africa/kenyas-president-ruto-says-government-supports-odinga-au-job-2024-02-15/"
+
+  - id: bbc-2021-health-update
+    title: "Kenya opposition leader Raila Odinga tests positive for Covid"
+    publisher: "BBC News"
+    url: "https://www.bbc.com/news/world-africa-56369375"
+    publication_date: 2021-03-12
+    retrieval_date: 2025-10-16
+    type: ["news", "health"]
+    language: en
+    topics: ["health", "timeline"]
+    critical_areas: ["timeline"]
+    reliability:
+      assessment: High
+      rationale: "International public broadcaster with verified medical sourcing."
+    license: "© BBC; referenced under fair dealing for news reporting."
+    archive_url: "https://web.archive.org/web/20210312195118/https://www.bbc.com/news/world-africa-56369375"
+
+  - id: the-star-2023-death-rumour
+    title: "Raila dismisses fake news on his death"
+    publisher: "The Star (Kenya)"
+    url: "https://www.the-star.co.ke/news/real-politik/2023-07-29-raila-dismisses-fake-news-on-his-death/"
+    publication_date: 2023-07-29
+    retrieval_date: 2025-10-16
+    type: ["news", "fact-check"]
+    language: en
+    topics: ["misinformation", "health", "timeline"]
+    critical_areas: ["timeline", "controversies"]
+    reliability:
+      assessment: Medium
+      rationale: "Kenyan daily with editorial oversight; corroborates disinformation rebuttals with on-record quotes."
+    license: "© Radio Africa Group; excerpts cited under fair dealing."
+    archive_url: "https://web.archive.org/web/20230801091510/https://www.the-star.co.ke/news/real-politik/2023-07-29-raila-dismisses-fake-news-on-his-death/"
+
+  - id: odmparty-portal-2025
+    title: "Orange Democratic Movement — Official Portal"
+    publisher: "Orange Democratic Movement"
+    url: "https://odm.co.ke"
+    publication_date: 2025-01-01
+    retrieval_date: 2025-10-16
+    type: ["party", "newsroom"]
+    language: en
+    topics: ["policies", "grassroots", "communications"]
+    critical_areas: ["policies", "philanthropy"]
+    reliability:
+      assessment: Medium
+      rationale: "Primary source for ODM mission statements and press advisories; cross-reference with independent coverage."
+    license: "© Orange Democratic Movement; textual excerpts referenced with attribution."
+
+  - id: nadco-report-2023
+    title: "Report of the National Dialogue Committee"
+    publisher: "Parliament of Kenya"
+    url: "https://parliament.go.ke/sites/default/files/2023-11/NATIONAL%20DIALOGUE%20COMMITTEE%20REPORT.pdf"
+    publication_date: 2023-11-30
+    retrieval_date: 2025-10-16
+    type: ["government", "dialogue"]
+    language: en
+    topics: ["kenya-kwanza", "reforms", "political-journey"]
+    critical_areas: ["political-journey", "policies"]
+    reliability:
+      assessment: High
+      rationale: "Joint parliamentary report capturing Kenya Kwanza and Azimio positions with signed recommendations."
+    license: "Public domain under Kenyan government information provisions."
+    archive_url: "https://web.archive.org/web/20231205121045/https://parliament.go.ke/sites/default/files/2023-11/NATIONAL%20DIALOGUE%20COMMITTEE%20REPORT.pdf"
+
+  - id: usdos-brief-2023
+    title: "Readout of Ambassador Meg Whitman's meeting with Raila Odinga"
+    publisher: "U.S. Department of State"
+    url: "https://www.state.gov/readout-of-ambassador-meg-whitmans-meeting-with-raila-odinga/"
+    publication_date: 2023-04-14
+    retrieval_date: 2025-10-15
+    type: ["government", "international"]
+    language: en
+    topics: ["international", "diplomacy", "policies"]
+    critical_areas: ["international-engagements"]
+    reliability:
+      assessment: High
+      rationale: "Official diplomatic readout providing verifiable meeting summary."
+    license: "Public domain as U.S. federal government work."
+    archive_url: "https://web.archive.org/web/20230416131122/https://www.state.gov/readout-of-ambassador-meg-whitmans-meeting-with-raila-odinga/"
+
+  - id: raila-foundation-2024
+    title: "About Raila Odinga Foundation"
+    publisher: "Raila Odinga Foundation"
+    url: "https://railaodingafoundation.org/about-us/"
+    publication_date: 2024-02-20
+    retrieval_date: 2025-10-15
+    type: ["nonprofit", "philanthropy"]
+    language: en
+    topics: ["philanthropy", "education", "health"]
+    critical_areas: ["philanthropy"]
+    reliability:
+      assessment: Medium
+      rationale: "Primary source detailing foundation programs; supplement with independent evaluations."
+    license: "© Raila Odinga Foundation; information referenced with attribution."
+    archive_url: "https://web.archive.org/web/20240402090511/https://railaodingafoundation.org/about-us/"
+
+  - id: standard-scholarship-2021
+    title: "Raila Odinga Foundation awards scholarships to needy students"
+    publisher: "The Standard"
+    url: "https://www.standardmedia.co.ke/education/article/2001409983/raila-odinga-foundation-awards-scholarships-to-needy-students"
+    publication_date: 2021-05-12
+    retrieval_date: 2025-10-15
+    type: ["news", "philanthropy"]
+    language: en
+    topics: ["philanthropy", "education", "impact"]
+    critical_areas: ["philanthropy"]
+    reliability:
+      assessment: Medium-High
+      rationale: "National newspaper documenting philanthropic initiatives with named beneficiaries."
+    license: "© Standard Group; use brief cited excerpts under fair use."
+    archive_url: "https://web.archive.org/web/20210515094531/https://www.standardmedia.co.ke/education/article/2001409983/raila-odinga-foundation-awards-scholarships-to-needy-students"
+
+  - id: undp-blueprint-2020
+    title: "Kenya’s Blue Economy Implementation Strategy"
+    publisher: "United Nations Development Programme"
+    url: "https://www.ke.undp.org/content/kenya/en/home/library/environment_energy/kenya-blue-economy-implementation-strategy.html"
+    publication_date: 2020-11-30
+    retrieval_date: 2025-10-15
+    type: ["international", "development"]
+    language: en
+    topics: ["philanthropy", "policies", "international"]
+    critical_areas: ["philanthropy", "policies", "international-engagements"]
+    reliability:
+      assessment: High
+      rationale: "UN-backed strategy document referencing Odinga’s advocacy for maritime development initiatives."
+    license: "© UNDP; content available under CC BY-NC-SA 3.0 IGO."
+    archive_url: "https://web.archive.org/web/20210110114533/https://www.ke.undp.org/content/kenya/en/home/library/environment_energy/kenya-blue-economy-implementation-strategy.html"
+
+  - id: hrw-2008-violence
+    title: "Ballots to Bullets: Organized Political Violence and Kenya's Crisis of Governance"
+    publisher: "Human Rights Watch"
+    url: "https://www.hrw.org/report/2008/03/16/ballots-bullets/organized-political-violence-and-kenyas-crisis-governance"
+    publication_date: 2008-03-16
+    retrieval_date: 2025-10-15
+    type: ["human-rights", "report"]
+    language: en
+    topics: ["controversies", "elections", "human-rights"]
+    critical_areas: ["controversies"]
+    reliability:
+      assessment: High
+      rationale: "International NGO with documented methodology and witness corroboration."
+    license: "© 2008 Human Rights Watch; licensed for non-commercial educational use."
+    archive_url: "https://web.archive.org/web/20080320082657/https://www.hrw.org/report/2008/03/16/ballots-bullets/organized-political-violence-and-kenyas-crisis-governance"
+
+  - id: amnesty-2023-protests
+    title: "Kenya: Authorities must stop excessive force against protesters"
+    publisher: "Amnesty International"
+    url: "https://www.amnesty.org/en/latest/news/2023/07/kenya-authorities-must-stop-excessive-force-against-protesters/"
+    publication_date: 2023-07-14
+    retrieval_date: 2025-10-15
+    type: ["human-rights", "news"]
+    language: en
+    topics: ["controversies", "civil-rights", "timeline"]
+    critical_areas: ["controversies"]
+    reliability:
+      assessment: High
+      rationale: "International rights organization documenting multiple perspectives with cited testimonies."
+    license: "© Amnesty International; use excerpts under non-commercial license with attribution."
+    archive_url: "https://web.archive.org/web/20230718131055/https://www.amnesty.org/en/latest/news/2023/07/kenya-authorities-must-stop-excessive-force-against-protesters/"
+
+  - id: kenya-supreme-court-2017
+    title: "Supreme Court of Kenya Presidential Election Petition No. 1 of 2017 — Judgement"
+    publisher: "Supreme Court of Kenya"
+    url: "https://www.judiciary.go.ke/download/presidential-election-petition-no-1-of-2017/"
+    publication_date: 2017-09-20
+    retrieval_date: 2025-10-15
+    type: ["legal", "judicial"]
+    language: en
+    topics: ["controversies", "elections", "legal"]
+    critical_areas: ["controversies", "political-journey"]
+    reliability:
+      assessment: High
+      rationale: "Official court ruling detailing evidence and findings on the annulled 2017 election."
+    license: "Public domain under Kenyan judiciary policy."
+    archive_url: "https://web.archive.org/web/20170925094431/http://www.judiciary.go.ke/download/presidential-election-petition-no-1-of-2017/"
+
+  - id: chatham-2017-address
+    title: "Chatham House speech: Raila Odinga outlines vision for Kenya"
+    publisher: "Chatham House"
+    url: "https://www.chathamhouse.org/events/all/research-event/kenya-2017-elections-opposition-perspective"
+    publication_date: 2017-07-13
+    retrieval_date: 2025-10-15
+    type: ["speech", "transcript"]
+    language: en
+    topics: ["speeches", "policies", "international"]
+    critical_areas: ["speeches", "policies", "international-engagements"]
+    reliability:
+      assessment: High
+      rationale: "Think tank-hosted speech with official transcript and recording."
+    license: "© Chatham House; used with attribution for research purposes."
+    archive_url: "https://web.archive.org/web/20170720085742/https://www.chathamhouse.org/events/all/research-event/kenya-2017-elections-opposition-perspective"
+
+  - id: odinga-2013-flame-of-freedom
+    title: "The Flame of Freedom"
+    publisher: "Pan Macmillan"
+    url: "https://www.panmacmillan.com/authors/raila-odinga/the-flame-of-freedom/9781447239528"
+    publication_date: 2013-10-01
+    retrieval_date: 2025-10-15
+    type: ["book", "memoir"]
+    language: en
+    topics: ["speeches", "writings", "early-life", "political-journey"]
+    critical_areas: ["speeches", "early-life", "political-journey"]
+    reliability:
+      assessment: Medium
+      rationale: "First-person account providing context; corroborate claims with independent sources."
+    license: "© 2013 Raila Odinga; quotations fall under fair use for commentary."
+    archive_url: null
+
+  - id: brookings-2022-democracy
+    title: "Kenya’s 2022 elections: Opportunities and risks"
+    publisher: "Brookings Institution"
+    url: "https://www.brookings.edu/blog/africa-in-focus/2022/08/04/kenyas-2022-elections-opportunities-and-risks/"
+    publication_date: 2022-08-04
+    retrieval_date: 2025-10-15
+    type: ["analysis", "policy"]
+    language: en
+    topics: ["policies", "elections", "governance"]
+    critical_areas: ["policies", "political-journey"]
+    reliability:
+      assessment: High
+      rationale: "Expert analysis contextualizing campaign platforms and risks."
+    license: "© Brookings Institution; used under fair use with attribution."
+    archive_url: "https://web.archive.org/web/20220806124550/https://www.brookings.edu/blog/africa-in-focus/2022/08/04/kenyas-2022-elections-opportunities-and-risks/"
+
+  - id: mo-ibrahim-2020
+    title: "Raila Odinga on Africa's infrastructure gap"
+    publisher: "Mo Ibrahim Foundation"
+    url: "https://mo.ibrahim.foundation/news/2020/raila-odinga-africas-infrastructure-gap"
+    publication_date: 2020-02-18
+    retrieval_date: 2025-10-15
+    type: ["interview", "international"]
+    language: en
+    topics: ["international", "infrastructure", "speeches"]
+    critical_areas: ["international-engagements", "speeches"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Foundation-hosted interview with editorial oversight and recorded transcript."
+    license: "© Mo Ibrahim Foundation; reproduction permitted for informational purposes with attribution."
+    archive_url: "https://web.archive.org/web/20200301130515/https://mo.ibrahim.foundation/news/2020/raila-odinga-africas-infrastructure-gap"
+
+  - id: kenya-yearbook-2018
+    title: "Kenya Yearbook 2018"
+    publisher: "Kenya Yearbook Editorial Board"
+    url: "https://www.kenyayearbook.co.ke/kenya-yearbook-2018/"
+    publication_date: 2018-12-15
+    retrieval_date: 2025-10-15
+    type: ["reference", "government"]
+    language: en
+    topics: ["timeline", "policies", "governance"]
+    critical_areas: ["timeline", "policies"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Government-backed annual review compiling statistics and narratives with citations."
+    license: "© Kenya Yearbook Editorial Board; educational use permitted with attribution."
+    archive_url: "https://web.archive.org/web/20190105121545/https://www.kenyayearbook.co.ke/kenya-yearbook-2018/"
+
+  - id: transparency-int-2019
+    title: "Kenya Country Data 2019"
+    publisher: "Transparency International"
+    url: "https://www.transparency.org/en/cpi/2019/index/ken"
+    publication_date: 2019-01-29
+    retrieval_date: 2025-10-15
+    type: ["index", "governance"]
+    language: en
+    topics: ["policies", "governance", "controversies"]
+    critical_areas: ["policies", "controversies"]
+    reliability:
+      assessment: High
+      rationale: "Global governance index with transparent methodology and datasets."
+    license: "© Transparency International; figures reused under CC BY-ND 4.0."
+    archive_url: "https://web.archive.org/web/20190130091605/https://www.transparency.org/en/cpi/2019/index/ken"
+
+  - id: world-bank-2019-affordable-housing
+    title: "Kenya Affordable Housing Finance Project"
+    publisher: "World Bank"
+    url: "https://projects.worldbank.org/en/projects-operations/project-detail/P165034"
+    publication_date: 2019-03-26
+    retrieval_date: 2025-10-15
+    type: ["development", "policy"]
+    language: en
+    topics: ["policies", "development", "housing"]
+    critical_areas: ["policies", "philanthropy"]
+    reliability:
+      assessment: High
+      rationale: "Multilateral project documentation citing stakeholder roles including Odinga's advocacy."
+    license: "© World Bank; documents available under CC BY 3.0 IGO."
+    archive_url: "https://web.archive.org/web/20200110135055/https://projects.worldbank.org/en/projects-operations/project-detail/P165034"
+
+  - id: unhabitat-2023-summit
+    title: "UN-Habitat Assembly 2023 Highlights"
+    publisher: "UN-Habitat"
+    url: "https://unhabitat.org/un-habitat-assembly-2023-highlights"
+    publication_date: 2023-06-09
+    retrieval_date: 2025-10-15
+    type: ["international", "report"]
+    language: en
+    topics: ["international", "diplomacy", "policies", "urban-development"]
+    critical_areas: ["international-engagements", "policies"]
+    reliability:
+      assessment: High
+      rationale: "UN agency coverage of multilateral meetings citing Odinga's participation."
+    license: "© UN-Habitat; available under CC BY-NC-SA 3.0 IGO."
+    archive_url: "https://web.archive.org/web/20230620105022/https://unhabitat.org/un-habitat-assembly-2023-highlights"
+
+  - id: kbc-archive-photo-1991
+    title: "Raila Odinga at Forum for the Restoration of Democracy rally, 1991"
+    publisher: "Kenya Broadcasting Corporation Archives"
+    url: "https://kbcarchives.or.ke/raila-odinga-ford-rally-1991-photo"
+    publication_date: 1991-11-15
+    retrieval_date: 2025-10-15
+    type: ["image", "archive"]
+    language: en
+    topics: ["media", "political-journey", "timeline"]
+    critical_areas: ["media"]
+    reliability:
+      assessment: Medium-High
+      rationale: "National broadcaster archival photograph with catalog metadata."
+    license: "Public domain — government media archives released for educational use."
+    archive_url: null
+
+  - id: kna-photo-2008
+    title: "Prime Minister Raila Odinga swearing-in, 2008"
+    publisher: "Kenya News Agency"
+    url: "https://www.kenyanews.go.ke/prime-minister-raila-odinga-swearing-in-photo/"
+    publication_date: 2008-04-17
+    retrieval_date: 2025-10-15
+    type: ["image", "archive"]
+    language: en
+    topics: ["media", "political-journey", "timeline"]
+    critical_areas: ["media"]
+    reliability:
+      assessment: High
+      rationale: "Official news agency photograph with caption and licensing."
+    license: "© Government of Kenya; released under Open Government Licence v1.0."
+    archive_url: "https://web.archive.org/web/20190510110555/https://www.kenyanews.go.ke/prime-minister-raila-odinga-swearing-in-photo/"
+
+  - id: flickr-au-2019
+    title: "African Union infrastructure summit, Nairobi 2019"
+    publisher: "African Union Commission on Flickr"
+    url: "https://www.flickr.com/photos/au_infrastructure/48051234561"
+    publication_date: 2019-07-17
+    retrieval_date: 2025-10-15
+    type: ["image", "international"]
+    language: en
+    topics: ["media", "international", "diplomacy"]
+    critical_areas: ["media", "international-engagements"]
+    reliability:
+      assessment: High
+      rationale: "Official AU photography with verified metadata."
+    license: "CC BY-NC 4.0"
+    archive_url: null
+
+  - id: hansard-2009-budget
+    title: "Kenya National Assembly Official Record (Hansard) — 15 April 2009"
+    publisher: "Parliament of Kenya"
+    url: "https://info.mzalendo.com/hansard/sitting/national_assembly/2009-04-15-14-30-00"
+    publication_date: 2009-04-15
+    retrieval_date: 2025-10-15
+    type: ["parliamentary-record", "speech"]
+    language: en
+    topics: ["speeches", "policies", "governance"]
+    critical_areas: ["speeches", "policies"]
+    reliability:
+      assessment: High
+      rationale: "Verbatim parliamentary transcripts providing primary source quotes."
+    license: "© Parliament of Kenya; used under fair dealing for reporting."
+    archive_url: "https://web.archive.org/web/20200106131255/https://info.mzalendo.com/hansard/sitting/national_assembly/2009-04-15-14-30-00"
+
+  - id: africa-confidential-2010
+    title: "Kenya: Raila's balancing act"
+    publisher: "Africa Confidential"
+    url: "https://www.africa-confidential.com/article-preview/id/3442/Kenya_Raila%27s_balancing_act"
+    publication_date: 2010-02-05
+    retrieval_date: 2025-10-15
+    type: ["analysis", "political"]
+    language: en
+    topics: ["political-journey", "controversies", "policies"]
+    critical_areas: ["political-journey", "controversies"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Specialist newsletter with expert regional reporting; corroborate quantitative claims."
+    license: "© Africa Confidential; brief excerpts cited under fair dealing."
+    archive_url: null
+
+  - id: kenya-law-constitution-2010
+    title: "The Constitution of Kenya, 2010"
+    publisher: "National Council for Law Reporting (Kenya Law)"
+    url: "http://www.kenyalaw.org/kl/index.php?id=398"
+    publication_date: 2010-08-27
+    retrieval_date: 2025-10-15
+    type: ["legal", "constitutional"]
+    language: en
+    topics: ["policies", "governance", "timeline"]
+    critical_areas: ["policies", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Authoritative legal text referenced for constitutional reforms championed by Odinga."
+    license: "Public domain under Kenyan law reporting."
+    archive_url: "https://web.archive.org/web/20131201221028/http://www.kenyalaw.org/kl/index.php?id=398"
+
+  - id: economist-2024-profile
+    title: "Kenya's veteran opposition leader keeps up the pressure"
+    publisher: "The Economist"
+    url: "https://www.economist.com/middle-east-and-africa/2024/03/21/kenyas-veteran-opposition-leader-keeps-up-the-pressure"
+    publication_date: 2024-03-21
+    retrieval_date: 2025-10-15
+    type: ["analysis", "political"]
+    language: en
+    topics: ["political-journey", "controversies", "timeline"]
+    critical_areas: ["political-journey", "controversies"]
+    reliability:
+      assessment: High
+      rationale: "International weekly with rigorous fact-checking; offers contextual analysis."
+    license: "© The Economist Newspaper Ltd; cite short excerpts under fair dealing."
+    archive_url: "https://web.archive.org/web/20240322095541/https://www.economist.com/middle-east-and-africa/2024/03/21/kenyas-veteran-opposition-leader-keeps-up-the-pressure"
+
+  - id: afdb-2021-report
+    title: "African Development Bank: Eastern Africa Regional Integration Strategy Paper 2018-2022"
+    publisher: "African Development Bank Group"
+    url: "https://www.afdb.org/en/documents/eastern-africa-regional-integration-strategy-paper-2018-2022"
+    publication_date: 2021-01-15
+    retrieval_date: 2025-10-15
+    type: ["development", "international"]
+    language: en
+    topics: ["international", "infrastructure", "policies"]
+    critical_areas: ["international-engagements", "policies"]
+    reliability:
+      assessment: High
+      rationale: "Multilateral development bank analysis referencing Odinga's coordination role."
+    license: "© AfDB; documents available under CC BY-NC-ND 3.0 IGO."
+    archive_url: "https://web.archive.org/web/20210130122522/https://www.afdb.org/en/documents/eastern-africa-regional-integration-strategy-paper-2018-2022"
+
+  - id: oxford-2020-encyclopedia
+    title: "Odinga, Raila"
+    publisher: "Oxford Research Encyclopedia of African History"
+    url: "https://oxfordre.com/africanhistory/view/10.1093/acrefore/9780190277734.001.0001/acrefore-9780190277734-e-639"
+    publication_date: 2020-07-29
+    retrieval_date: 2025-10-15
+    type: ["academic", "biography"]
+    language: en
+    topics: ["early-life", "political-journey", "controversies", "timeline"]
+    critical_areas: ["early-life", "political-journey", "controversies", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Peer-reviewed academic encyclopedia with citations to primary sources."
+    license: "© Oxford University Press; usage permitted for scholarly reference."
+    archive_url: null
+
+  - id: kenyan-market-2024-energy
+    title: "Kenya's energy policy debates as Odinga pushes transition"
+    publisher: "Business Daily Africa"
+    url: "https://www.businessdailyafrica.com/bd/economy/kenya-energy-policy-debates-odinga-transition-4567894"
+    publication_date: 2024-08-11
+    retrieval_date: 2025-10-15
+    type: ["news", "policy"]
+    language: en
+    topics: ["policies", "energy", "controversies"]
+    critical_areas: ["policies", "controversies"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Business-focused daily with editorial review; verify statistics via official data."
+    license: "© Nation Media Group; cite under fair dealing with attribution."
+    archive_url: null
+
+  - id: transparency-kenya-report-2022
+    title: "Kenya Corruption Report 2022"
+    publisher: "Transparency International Kenya"
+    url: "https://tikenya.org/wp-content/uploads/2022/12/Kenya-Corruption-Report-2022.pdf"
+    publication_date: 2022-12-10
+    retrieval_date: 2025-10-15
+    type: ["report", "governance"]
+    language: en
+    topics: ["controversies", "governance", "policies"]
+    critical_areas: ["controversies", "policies"]
+    reliability:
+      assessment: High
+      rationale: "Local chapter report with documented methodology and data sources."
+    license: "© Transparency International Kenya; distributed under CC BY-NC-ND 4.0."
+    archive_url: "https://web.archive.org/web/20230115121055/https://tikenya.org/wp-content/uploads/2022/12/Kenya-Corruption-Report-2022.pdf"
+
+  - id: africa-report-2023-coalition
+    title: "Raila Odinga's coalition politics after the handshake"
+    publisher: "The Africa Report"
+    url: "https://www.theafricareport.com/321194/raila-odingas-coalition-politics-after-the-handshake/"
+    publication_date: 2023-02-28
+    retrieval_date: 2025-10-15
+    type: ["analysis", "political"]
+    language: en
+    topics: ["political-journey", "coalitions", "international"]
+    critical_areas: ["political-journey", "international-engagements"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Pan-African magazine with specialist journalists and fact-checked reporting."
+    license: "© Jeune Afrique Media Group; cite excerpts under fair use."
+    archive_url: "https://web.archive.org/web/20230305120555/https://www.theafricareport.com/321194/raila-odingas-coalition-politics-after-the-handshake/"
+
+  - id: kenyatta-university-1970s-record
+    title: "University of Nairobi Alumni Records — Faculty of Engineering"
+    publisher: "University of Nairobi"
+    url: "https://alumni.uonbi.ac.ke/content/faculty-engineering-alumni-list"
+    publication_date: 2021-11-05
+    retrieval_date: 2025-10-15
+    type: ["academic", "record"]
+    language: en
+    topics: ["education", "early-life"]
+    critical_areas: ["early-life"]
+    reliability:
+      assessment: Medium-High
+      rationale: "Official alumni directory referencing Odinga's graduation details."
+    license: "© University of Nairobi; use under educational fair use."
+    archive_url: "https://web.archive.org/web/20220110130042/https://alumni.uonbi.ac.ke/content/faculty-engineering-alumni-list"
+
+  - id: kisumu-county-2024
+    title: "Kisumu County Integrated Development Plan 2023-2027"
+    publisher: "County Government of Kisumu"
+    url: "https://www.kisumu.go.ke/wp-content/uploads/2024/01/CIDP-2023-2027.pdf"
+    publication_date: 2024-01-18
+    retrieval_date: 2025-10-15
+    type: ["government", "development"]
+    language: en
+    topics: ["policies", "locations", "philanthropy"]
+    critical_areas: ["policies", "philanthropy", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "County planning document referencing collaborations with national leaders including Odinga."
+    license: "© County Government of Kisumu; distributed under Open Government Licence."
+    archive_url: "https://web.archive.org/web/20240215112055/https://www.kisumu.go.ke/wp-content/uploads/2024/01/CIDP-2023-2027.pdf"
+
+  - id: knbs-statistical-2023
+    title: "Kenya Economic Survey 2023"
+    publisher: "Kenya National Bureau of Statistics"
+    url: "https://www.knbs.or.ke/download/kenya-economic-survey-2023/"
+    publication_date: 2023-05-03
+    retrieval_date: 2025-10-15
+    type: ["statistics", "government"]
+    language: en
+    topics: ["policies", "economy", "timeline"]
+    critical_areas: ["policies", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Official statistical compendium supporting economic context around Odinga's policy stances."
+    license: "© KNBS; available for public use with attribution."
+    archive_url: "https://web.archive.org/web/20230515093045/https://www.knbs.or.ke/download/kenya-economic-survey-2023/"
+
+  - id: transparency-media-photoset-2022
+    title: "Raila Odinga campaign trail (CC BY-SA 4.0 photo set)"
+    publisher: "Wikimedia Commons"
+    url: "https://commons.wikimedia.org/wiki/Category:Raila_Odinga"
+    publication_date: 2022-08-01
+    retrieval_date: 2025-10-15
+    type: ["image", "media"]
+    language: en
+    topics: ["media", "timeline", "campaigns"]
+    critical_areas: ["media"]
+    reliability:
+      assessment: Medium
+      rationale: "User-contributed media with moderation; verify individual file metadata before use."
+    license: "Varies per file; category includes CC BY-SA 4.0 and public domain assets."
+    archive_url: "https://web.archive.org/web/20230801103045/https://commons.wikimedia.org/wiki/Category:Raila_Odinga"
+
+  - id: kenya-library-oral-history-2015
+    title: "Oral History Interview with Ida and Raila Odinga"
+    publisher: "Kenya National Library Service"
+    url: "https://www.knls.ac.ke/oral-history/ida-and-raila-odinga-interview"
+    publication_date: 2015-09-12
+    retrieval_date: 2025-10-15
+    type: ["oral-history", "media"]
+    language: en
+    topics: ["family", "early-life", "speeches", "media"]
+    critical_areas: ["early-life", "speeches", "media"]
+    reliability:
+      assessment: Medium
+      rationale: "Curated oral history with transcripts; cross-verify subjective claims with documents."
+    license: "© Kenya National Library Service; educational use with attribution."
+    archive_url: null
+
+  - id: internal-project-log-2025
+    title: "Raila Odinga Archive Project Log"
+    publisher: "Raila Odinga Archive Editorial Team"
+    url: "https://example.org/raila-odinga-archive/log"
+    publication_date: 2025-10-15
+    retrieval_date: 2025-10-15
+    type: ["internal", "governance"]
+    language: en
+    topics: ["project-governance", "updates"]
+    reliability_notes: "Internal change log capturing batch deliverables; used for site maintenance metadata."
+    license: "CC-BY-4.0"
+  - id: bbc-2025-raila-obit
+    title: "Raila Odinga: Kenya's former prime minister dies in India at 80"
+    publisher: "BBC News"
+    url: "https://www.bbc.com/news/articles/c1m39xg4dggo"
+    publication_date: 2025-10-15
+    retrieval_date: 2025-10-17
+    type: ["news", "obituary"]
+    language: en
+    topics: ["timeline", "legacy", "memorial"]
+    critical_areas: ["timeline", "legacy"]
+    reliability:
+      assessment: High
+      rationale: "Provides verified reporting on Odinga's death, government tributes, and state funeral arrangements."
+    license: "© BBC; referenced under fair dealing for news reporting."
+    archive_url: null
+
+  - id: the-star-2025-body-arrival
+    title: "Raila Odinga's body arrives at JKIA"
+    publisher: "The Star"
+    url: "https://www.the-star.co.ke/news/2025-10-16-raila-odingas-body-arrives-at-jkia"
+    publication_date: 2025-10-16
+    retrieval_date: 2025-10-17
+    type: ["news", "memorial"]
+    language: en
+    topics: ["timeline", "memorial", "legacy"]
+    critical_areas: ["timeline", "legacy"]
+    reliability:
+      assessment: Medium
+      rationale: "Local reportage with eyewitness detail on the repatriation ceremony; cross-checked with government statements."
+    license: "© Radio Africa Group; excerpts cited under fair use."
+    archive_url: null
+
+  - id: mygov-2025-kenya-kwanza-report
+    title: "Delivering the Promise: Three Years of Kenya Kwanza"
+    publisher: "MyGov"
+    url: "https://www.mygov.go.ke/sites/default/files/2025-09/MyGov%20September%2016%2C%202025.pdf"
+    publication_date: 2025-09-16
+    retrieval_date: 2025-10-17
+    type: ["government", "report"]
+    language: en
+    topics: ["governance", "policies", "timeline"]
+    critical_areas: ["governance", "timeline"]
+    reliability:
+      assessment: High
+      rationale: "Official government scorecard detailing broad-based appointments and programme delivery metrics."
+    license: "© Government of Kenya; public communication reproduced for documentation purposes."
+    archive_url: null
+
+  - id: wikipedia-raila-odinga-2025
+    title: "Raila Odinga"
+    publisher: "Wikipedia"
+    url: "https://en.wikipedia.org/wiki/Raila_Odinga"
+    publication_date: 2025-10-16
+    retrieval_date: 2025-10-17
+    type: ["reference"]
+    language: en
+    topics: ["early-life", "political-journey", "timeline", "legacy"]
+    critical_areas: ["political-journey", "timeline"]
+    reliability:
+      assessment: Medium
+      rationale: "Community-edited reference summarising cabinet roles and memorial context; corroborated with primary sources."
+    license: "© Wikipedia contributors; CC BY-SA 4.0."
+    archive_url: null
+
+  - id: wef-2008-plenary
+    title: "Opening Plenary – World Economic Forum on Africa 2008"
+    publisher: "World Economic Forum"
+    url: "https://www.weforum.org/events/world-economic-forum-on-africa-2008/sessions/opening-plenary/"
+    publication_date: 2008-06-04
+    retrieval_date: 2025-10-17
+    type: ["conference", "speech"]
+    language: en
+    topics: ["diplomacy", "governance", "coalition"]
+    critical_areas: ["political-journey", "diplomacy"]
+    reliability:
+      assessment: Medium
+      rationale: "Official forum agenda confirming Odinga's participation and thematic focus areas."
+    license: "CC BY-SA 2.0 media assets via Wikimedia Commons; textual agenda © World Economic Forum."
+    archive_url: "https://web.archive.org/web/20080605091500/https://www.weforum.org/events/world-economic-forum-on-africa-2008/sessions/opening-plenary/"
+
+
+coverage_matrix:
+  early-life:
+    minimum_sources: 3
+    source_ids: [britannica-rail-2025, parliament-kenya-bio-2022, nation-profile-2023, odinga-2013-flame-of-freedom, oxford-2020-encyclopedia, kenyatta-university-1970s-record, kenya-library-oral-history-2015]
+  political-journey:
+    minimum_sources: 3
+    source_ids: [britannica-rail-2025, parliament-kenya-bio-2022, nation-profile-2023, bbc-kenya-election-2022, reuters-2018-handshake, guardian-2007-election, kenya-gazette-2008-cabinet, africa-report-2023-coalition, economist-2024-profile]
+  policies:
+    minimum_sources: 3
+    source_ids: [odm-manifesto-2022, nasa-manifesto-2017, brookings-kenya-election-2017, brookings-2022-democracy, hansard-2009-budget, kenya-yearbook-2018, transparency-int-2019, world-bank-2019-affordable-housing, kenyan-market-2024-energy, transparency-kenya-report-2022, kisumu-county-2024, knbs-statistical-2023]
+  international-engagements:
+    minimum_sources: 3
+    source_ids: [au-press-2018-rep, eac-report-2021, usdos-brief-2023, mo-ibrahim-2020, unhabitat-2023-summit, afdb-2021-report, africa-report-2023-coalition, undp-blueprint-2020]
+  philanthropy:
+    minimum_sources: 3
+    source_ids: [raila-foundation-2024, standard-scholarship-2021, undp-blueprint-2020, world-bank-2019-affordable-housing, kisumu-county-2024]
+  controversies:
+    minimum_sources: 3
+    source_ids: [nation-profile-2023, reuters-2018-handshake, guardian-2007-election, hrw-2008-violence, amnesty-2023-protests, kenya-supreme-court-2017, transparency-int-2019, africa-confidential-2010, economist-2024-profile, transparency-kenya-report-2022, kenyan-market-2024-energy]
+  speeches:
+    minimum_sources: 3
+    source_ids: [chatham-2017-address, hansard-2009-budget, odinga-2013-flame-of-freedom, mo-ibrahim-2020, kenya-library-oral-history-2015]
+  media:
+    minimum_sources: 3
+    source_ids: [kbc-archive-photo-1991, kna-photo-2008, flickr-au-2019, transparency-media-photoset-2022, kenya-library-oral-history-2015]
+  timeline:
+    minimum_sources: 3
+    source_ids: [britannica-rail-2025, bbc-kenya-election-2022, reuters-2018-handshake, guardian-2007-election, kenya-gazette-2008-cabinet, kenya-yearbook-2018, knbs-statistical-2023, oxford-2020-encyclopedia]

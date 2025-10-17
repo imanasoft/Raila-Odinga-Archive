@@ -1,0 +1,140 @@
+---
+import type { LocationEntry } from '@types/content';
+import { parse } from 'yaml';
+
+interface LocationMapProps {
+  locationId: string;
+  zoom?: number;
+  showMetadata?: boolean;
+}
+
+const { locationId, zoom = 9, showMetadata = true } = Astro.props as LocationMapProps;
+
+const locationModules = import.meta.glob<string>('../../content/locations/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const locations = Object.values(locationModules).map((content) => parse(content) as LocationEntry);
+
+const location = locations.find((entry) => entry.id === locationId);
+const lat = location?.geo?.latitude;
+const lon = location?.geo?.longitude;
+
+const latOffset = 0.6 / zoom;
+const lonOffset = 0.6 / zoom;
+
+const bbox =
+  lat !== undefined && lon !== undefined
+    ? `${lon - lonOffset},${lat - latOffset},${lon + lonOffset},${lat + latOffset}`
+    : undefined;
+
+const embedUrl =
+  lat !== undefined && lon !== undefined
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`
+    : undefined;
+
+const mapLink =
+  lat !== undefined && lon !== undefined
+    ? `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=${zoom}/${lat}/${lon}`
+    : undefined;
+---
+<figure class="location-map">
+  <figcaption class="location-map__caption">
+    {location ? (
+      <>
+        <span class="location-map__name">{location.name}</span>
+        {location.description && <span class="location-map__description">{location.description}</span>}
+        {showMetadata && location.sources.length > 0 && (
+          <span class="location-map__sources">
+            Sources:{' '}
+            {location.sources.map((source) => (
+              <code>{source.source_id}</code>
+            ))}
+          </span>
+        )}
+      </>
+    ) : (
+      <span class="location-map__name">Location unavailable</span>
+    )}
+  </figcaption>
+  {embedUrl ? (
+    <iframe
+      title={`Map showing ${location?.name ?? 'selected location'}`}
+      src={embedUrl}
+      loading="lazy"
+      referrerpolicy="no-referrer"
+      class="location-map__frame"
+    />
+  ) : (
+    <div class="location-map__placeholder" role="presentation">
+      <p>Map preview will appear once coordinates are available.</p>
+    </div>
+  )}
+  {mapLink && (
+    <p class="location-map__fallback">
+      Having trouble with the embed? <a href={mapLink}>Open this location on OpenStreetMap</a>.
+    </p>
+  )}
+</figure>
+
+<style>
+.location-map {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+  background: var(--color-surface-default);
+}
+
+.location-map__caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-size-100);
+}
+
+.location-map__name {
+  font-weight: var(--font-weight-semibold);
+}
+
+.location-map__description {
+  color: var(--color-text-secondary);
+}
+
+.location-map__sources {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-75);
+}
+
+.location-map__sources code + code {
+  margin-left: 0.5rem;
+}
+
+.location-map__frame {
+  width: 100%;
+  min-height: 18rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+}
+
+.location-map__placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 18rem;
+  background: var(--color-surface-subtle);
+  border-radius: var(--border-radius-sm);
+}
+
+.location-map__fallback {
+  margin: 0;
+  font-size: var(--font-size-75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-map__frame {
+    scroll-behavior: auto;
+  }
+}
+</style>

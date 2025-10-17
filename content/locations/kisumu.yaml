@@ -1,0 +1,16 @@
+id: location-kisumu
+slug: kisumu
+name: "Kisumu"
+type: city
+description: "City in western Kenya located on the shores of Lake Victoria."
+geo:
+  latitude: -0.0917
+  longitude: 34.7679
+  precision: city
+country_code: KE
+tags:
+  - geography
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Identifies Kisumu as Odinga's birthplace context."
+updated_at: 2025-10-15

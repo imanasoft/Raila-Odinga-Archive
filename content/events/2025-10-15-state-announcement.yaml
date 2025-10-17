@@ -1,0 +1,26 @@
+id: event-2025-state-announcement
+slug: 2025-10-15-state-announcement
+title: "Kenya declares national mourning after Raila Odinga's death"
+span:
+  start:
+    date: 2025-10-15
+    precision: day
+summary: "President William Ruto announced Raila Odinga's death in Kochi, India, ordered seven days of mourning, and promised a state funeral."
+description:
+  en: |
+    President William Ruto confirmed Raila Odinga died from a cardiac arrest while receiving treatment at Devamatha Hospital in Kochi, India. He declared seven days of national mourning, promised a state funeral with military honours, and coordinated repatriation arrangements with Odinga's family and the Ministry of Foreign Affairs.
+categories:
+  - legacy
+  - political-journey
+  - memorial
+related_people:
+  - id: person-raila-odinga
+timeline_display:
+  intensity: high
+  filters:
+    - memorial
+    - leadership
+sources:
+  - source_id: bbc-2025-raila-obit
+    summary: "Reports on Odinga's death, President Ruto's tribute, and the national mourning period."
+updated_at: 2025-10-17

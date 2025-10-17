@@ -1,0 +1,18 @@
+id: familymember-rose-odinga
+slug: rose-odinga
+person_id: null
+display_name: "Rosemary Odinga"
+relationships:
+  parents:
+    - id: familymember-raila-odinga
+    - id: familymember-ida-odinga
+lineage_notes: "Entrepreneur and community advocate, daughter of Raila and Ida Odinga."
+lineage_order:
+  generation: 3
+  birth_order: 1
+tags:
+  - lineage
+sources:
+  - source_id: nation-profile-2023
+    summary: "Mentions Rosemary Odinga's role within the family."
+updated_at: 2025-10-15

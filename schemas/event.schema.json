@@ -1,0 +1,127 @@
+{
+  "$id": "https://railasite.org/schemas/event.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Event Record",
+  "description": "Discrete happenings tied to the Raila Odinga timeline.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "span",
+    "summary",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "title": {
+      "type": "string"
+    },
+    "span": {
+      "$ref": "./common-definitions.schema.json#/$defs/temporalSpan"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "description": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString",
+      "description": "Long-form narrative optional field."
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "location_id": {
+          "$ref": "./common-definitions.schema.json#/$defs/identifier"
+        },
+        "geo": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "number"
+            },
+            "longitude": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "additionalProperties": false
+        },
+        "details": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "related_people": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "related_roles": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "related_policies": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "timeline_display": {
+      "type": "object",
+      "properties": {
+        "intensity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Relative prominence for visualization filtering."
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,124 @@
+---
+const { updatedAt = new Date().toISOString() } = Astro.props;
+---
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+    <div>
+      <p class="site-footer__title">Raila Odinga Archive</p>
+      <p class="site-footer__caption">Neutral, sourced, and accessible reference.</p>
+    </div>
+    <div class="site-footer__meta">
+      <p>Site scaffold last updated <time datetime={updatedAt}>{new Date(updatedAt).toISOString().slice(0, 10)}</time>.</p>
+      <nav aria-label="Utility">
+        <ul>
+          <li><a href="/credits">Credits &amp; Sources</a></li>
+          <li><a href="/updates">Updates</a></li>
+          <li><a href="/sitemap-index.xml">Sitemap</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__credit">
+        This tribute is crafted by{' '}
+        <a href="https://imanasoft.com" target="_blank" rel="noreferrer noopener">Imanasoft</a>. For adjustments or questions,
+        contact the developer directly on{' '}
+        <a
+          href="https://wa.me/254794930254"
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label="Message the developer on WhatsApp at +254794930254"
+        >
+          WhatsApp at +254794930254
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+  border-top: 0.35rem solid var(--color-brand-primary);
+  padding: var(--space-6) 0;
+}
+
+.site-footer__inner {
+  width: min(100%, var(--container-max-width));
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter-mobile);
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .site-footer__inner {
+    padding-inline: var(--grid-gutter-desktop);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.site-footer__title {
+  font-size: var(--font-size-200);
+  margin: 0;
+  color: var(--color-text-inverse);
+}
+
+.site-footer__caption {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.site-footer__meta p {
+  margin: 0 0 var(--space-2);
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.site-footer__meta ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.site-footer__meta a {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-inverse);
+  background: rgba(255, 255, 255, 0.12);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.site-footer__meta a:hover,
+.site-footer__meta a:focus-visible {
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.site-footer__credit {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-footer__credit a {
+  color: var(--color-text-inverse);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  padding-bottom: 0.15rem;
+}
+
+.site-footer__credit a:hover,
+.site-footer__credit a:focus-visible {
+  border-bottom-color: var(--color-brand-primary);
+}
+</style>

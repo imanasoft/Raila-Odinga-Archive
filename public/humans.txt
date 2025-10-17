@@ -1,0 +1,5 @@
+/* Team */
+Research & Editorial Team — research@raila-odinga-archive.org
+
+/* Thanks */
+Built with Astro, TypeScript, and open web standards.

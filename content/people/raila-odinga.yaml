@@ -1,0 +1,70 @@
+id: person-raila-odinga
+slug: raila-odinga
+name: Raila Amolo Odinga
+honorific_prefix: Rt. Hon.
+also_known_as:
+  - Baba
+birth:
+  date: 1945-01-07
+  place_id: location-kisumu
+  notes: "Born in Maseno, within Kisumu District, Kenya."
+  sources:
+    - source_id: britannica-rail-2025
+      summary: "Provides birth date and district information."
+      retrieved_at: 2025-10-15
+death:
+  status: deceased
+  date: 2025-10-15
+  description: "Died while receiving treatment at Devamatha Hospital in Kochi, India."
+  sources:
+    - source_id: bbc-2025-raila-obit
+      summary: "Reports Odinga's death from cardiac arrest in Kochi on 15 Oct 2025."
+nationalities:
+  - Kenyan
+biography:
+  en: |
+    Raila Amolo Odinga is a Kenyan politician and public servant whose career has spanned engineering, opposition activism, and senior government leadership since the late 1970s.
+summary: "Kenyan political leader whose pro-democracy activism, coalition governance, and 2025 state funeral cemented his national legacy."
+timeline_highlights:
+  - id: event-1982-detention
+    label: "Detained following 1982 coup attempt"
+  - id: event-2008-grand-coalition
+roles:
+  - id: role-prime-minister-2008
+  - id: role-au-envoy-infrastructure
+education:
+  - institution: "Technical University of Magdeburg"
+    credential: "Diplom-Ingenieur (Mechanical Engineering)"
+    span:
+      start:
+        date: 1965-10-01
+        description: "Commenced studies in East Germany"
+      end:
+        date: 1970-06-01
+        precision: month
+    location_id: location-magdeburg
+    sources:
+      - source_id: britannica-rail-2025
+        summary: "Outlines Odinga's engineering studies in East Germany."
+family_links:
+  - person_id: person-jaramogi-oginga-odinga
+    relationship_type: parent
+    notes: "Father; Kenya's first Vice President."
+  - person_id: person-ida-odinga
+    relationship_type: spouse
+    notes: "Married in 1973."
+tags:
+  - political-journey
+  - early-life
+  - leadership
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Core biographical overview covering early life and career milestones."
+  - source_id: parliament-kenya-bio-2022
+    summary: "Parliamentary record verifying parliamentary service and leadership roles."
+  - source_id: nation-profile-2023
+    quote: "Odinga, popularly known as Baba, has led several opposition movements in Kenya."
+    page: "Profile body"
+  - source_id: bbc-2025-raila-obit
+    summary: "Confirms Odinga's death, national mourning, and planned state funeral."
+updated_at: 2025-10-17

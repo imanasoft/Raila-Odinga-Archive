@@ -1,0 +1,28 @@
+id: event-2025-body-repatriation
+slug: 2025-10-16-body-repatriation
+title: "Flag-draped casket of Raila Odinga arrives in Nairobi"
+span:
+  start:
+    date: 2025-10-16
+    precision: day
+summary: "A military delegation received Odinga's remains at Jomo Kenyatta International Airport before transfer to Lee Funeral Home."
+description:
+  en: |
+    Odinga's casket arrived at Nairobi's Jomo Kenyatta International Airport aboard a government-chartered flight led by Prime Cabinet Secretary Musalia Mudavadi. Kenya Defence Forces pallbearers conducted a ceremonial reception before the body was escorted to Lee Funeral Home for national viewing preparations.
+location:
+  location_id: location-nairobi
+categories:
+  - memorial
+  - legacy
+related_people:
+  - id: person-raila-odinga
+  - id: person-musalia-mudavadi
+timeline_display:
+  intensity: high
+  filters:
+    - memorial
+    - state-protocol
+sources:
+  - source_id: the-star-2025-body-arrival
+    summary: "Describes the ceremonial reception at JKIA and subsequent transfer to Lee Funeral Home."
+updated_at: 2025-10-17

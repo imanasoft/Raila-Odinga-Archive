@@ -1,0 +1,127 @@
+{
+  "$id": "https://railasite.org/schemas/speech.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speech or Writing Record",
+  "description": "Speeches, statements, publications, and writings for the archive.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "delivery",
+    "summary",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "title": {
+      "type": "string"
+    },
+    "delivery": {
+      "type": "object",
+      "required": [
+        "date"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "venue": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "speech",
+            "op-ed",
+            "interview",
+            "publication",
+            "statement"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "string"
+    },
+    "abstract": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString"
+    },
+    "transcript": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "length_minutes": {
+          "type": "number"
+        },
+        "format": {
+          "type": "string"
+        },
+        "captioned": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "related_events": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "related_policies": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "full_text": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

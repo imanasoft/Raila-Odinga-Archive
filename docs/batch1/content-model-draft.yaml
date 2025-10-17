@@ -1,0 +1,116 @@
+# Content Model Draft (15 Oct 2025)
+entities:
+  person:
+    description: "Biographical entries for individuals related to Raila Odinga"
+    fields:
+      - id: {type: string, required: true}
+      - name: {type: string, required: true}
+      - birth_date: {type: date, required: false}
+      - death_date: {type: date, required: false}
+      - roles: {type: array, items: string}
+      - relationships: {type: array, items: {type: object, fields: [relation_type, target_person_id]}}
+      - summary: {type: text}
+      - sources: {type: array, items: sourceRef, required: true}
+  event:
+    description: "Discrete happenings tied to the timeline"
+    fields:
+      - id: {type: string, required: true}
+      - title: {type: string, required: true}
+      - date: {type: date, required: true}
+      - date_end: {type: date, required: false}
+      - location_id: {type: string, required: false}
+      - categories: {type: array, items: taxonomy}
+      - summary: {type: text, required: true}
+      - related_people: {type: array, items: string}
+      - related_policies: {type: array, items: string}
+      - media_ids: {type: array, items: string}
+      - sources: {type: array, items: sourceRef, required: true}
+  role:
+    description: "Official positions held"
+    fields:
+      - id: {type: string, required: true}
+      - title: {type: string, required: true}
+      - organization: {type: string, required: true}
+      - start_date: {type: date, required: true}
+      - end_date: {type: date, required: false}
+      - appointing_authority: {type: string, required: false}
+      - responsibilities: {type: text}
+      - related_events: {type: array, items: string}
+      - sources: {type: array, items: sourceRef, required: true}
+  election:
+    description: "Election participation records"
+    fields:
+      - id: {type: string, required: true}
+      - year: {type: integer, required: true}
+      - position: {type: string, required: true}
+      - coalition: {type: string, required: false}
+      - outcome: {type: string, required: true}
+      - vote_share: {type: number, required: false}
+      - turnout: {type: number, required: false}
+      - notable_events: {type: array, items: string}
+      - sources: {type: array, items: sourceRef, required: true}
+  speech:
+    description: "Speech and writing entries"
+    fields:
+      - id: {type: string, required: true}
+      - title: {type: string, required: true}
+      - date: {type: date, required: true}
+      - venue: {type: string, required: false}
+      - summary: {type: text, required: true}
+      - transcript_path: {type: string, required: false}
+      - topics: {type: array, items: taxonomy}
+      - media_id: {type: string, required: false}
+      - sources: {type: array, items: sourceRef, required: true}
+  policy:
+    description: "Policy positions and initiatives"
+    fields:
+      - id: {type: string, required: true}
+      - topic: {type: taxonomy, required: true}
+      - title: {type: string, required: true}
+      - summary: {type: text, required: true}
+      - stance_over_time: {type: array, items: {type: object, fields: [date, position, context, sources]}}
+      - related_events: {type: array, items: string}
+      - sources: {type: array, items: sourceRef, required: true}
+  media:
+    description: "Images, videos, audio assets"
+    fields:
+      - id: {type: string, required: true}
+      - type: {type: enum, values: [image, video, audio]}
+      - title: {type: string, required: true}
+      - description: {type: text, required: true}
+      - capture_date: {type: date, required: false}
+      - photographer: {type: string, required: false}
+      - source_id: {type: string, required: true}
+      - license: {type: string, required: true}
+      - alt_text: {type: string, required: true}
+      - transcript_path: {type: string, required: false}
+  location:
+    description: "Geographic references"
+    fields:
+      - id: {type: string, required: true}
+      - name: {type: string, required: true}
+      - coordinates: {type: object, fields: [lat, lon], required: false}
+      - description: {type: text, required: false}
+      - sources: {type: array, items: sourceRef, required: false}
+  update_log:
+    description: "Change history for transparency"
+    fields:
+      - id: {type: string, required: true}
+      - date: {type: date, required: true}
+      - description: {type: text, required: true}
+      - related_pages: {type: array, items: string}
+      - commit_hash: {type: string, required: false}
+
+supporting_types:
+  taxonomy:
+    description: "Hierarchical tags"
+    fields:
+      - slug: {type: string, required: true}
+      - label: {type: string, required: true}
+      - parent_slug: {type: string, required: false}
+  sourceRef:
+    description: "Reference to citation entries"
+    fields:
+      - source_id: {type: string, required: true}
+      - quote: {type: text, required: false}
+      - page: {type: string, required: false}

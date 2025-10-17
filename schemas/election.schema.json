@@ -1,0 +1,149 @@
+{
+  "$id": "https://railasite.org/schemas/election.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Election Record",
+  "description": "Details of elections in which Raila Odinga or related figures participated.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "cycle",
+    "position",
+    "outcome",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "cycle": {
+      "type": "object",
+      "required": [
+        "year"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        "round": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "additionalProperties": false
+    },
+    "position": {
+      "type": "string"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "coalition": {
+      "type": "string"
+    },
+    "running_mates": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "platform_summary": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString"
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "won",
+            "lost",
+            "runoff",
+            "contested",
+            "withdrawn"
+          ]
+        },
+        "official_vote_share": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "vote_margin": {
+          "type": "number"
+        },
+        "turnout_percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "result_date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "additionalProperties": false
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "legal_challenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "summary"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "span": {
+            "$ref": "./common-definitions.schema.json#/$defs/temporalSpan"
+          },
+          "status": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "related_events": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

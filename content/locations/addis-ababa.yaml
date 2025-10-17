@@ -1,0 +1,14 @@
+id: location-addis-ababa
+slug: addis-ababa
+name: "Addis Ababa"
+type: city
+description: "Capital city of Ethiopia and headquarters of the African Union."
+geo:
+  latitude: 8.9806
+  longitude: 38.7578
+  precision: city
+country_code: ET
+sources:
+  - source_id: au-press-2018-rep
+    summary: "Identifies Addis Ababa as the seat of the African Union for the appointment announcement."
+updated_at: 2025-10-15

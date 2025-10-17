@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://raila-odinga-static-site.example/sitemap-index.xml

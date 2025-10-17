@@ -1,0 +1,45 @@
+id: policy-community-enterprise-support
+slug: community-enterprise-support
+topic: economic-inclusion
+title: "Community enterprise and youth skills support"
+summary: "Programmes promoting small enterprise financing, vocational training, and cooperative models in counties allied with Odinga."
+narrative:
+  en: |
+    Odinga has advocated for blending public investment with private microfinance to scale small and medium enterprise growth, emphasising youth skills programmes and county innovation hubs.
+stance_over_time:
+  - span:
+      start:
+        date: 2019-02-01
+        precision: month
+    position: "Supported establishment of county innovation hubs for SMEs and agribusiness."
+    context: "County development plans outlining enterprise incubation."
+    sources:
+      - source_id: kisumu-county-2024
+        summary: "Documents county-level enterprise and innovation hub commitments."
+      - source_id: world-bank-2019-affordable-housing
+        summary: "Frames financial mechanisms referenced in Odinga's economic proposals."
+  - span:
+      start:
+        date: 2022-08-04
+      precision: day
+    position: "Promoted affordable credit and manufacturing corridors in Azimio manifesto."
+    context: "Coalition manifesto launch ahead of 2022 election."
+    sources:
+      - source_id: odm-manifesto-2022
+        summary: "Sets out economic empowerment pledges."
+      - source_id: brookings-2022-democracy
+        summary: "Assesses the feasibility of proposed economic reforms."
+related_events:
+  - id: event-2021-scholarship-awards
+  - id: event-2023-blue-economy-labs
+tags:
+  - philanthropy
+  - economic-inclusion
+sources:
+  - source_id: raila-foundation-2024
+    summary: "Highlights mentorship and enterprise components of the foundation's programmes."
+  - source_id: kisumu-county-2024
+    summary: "Details county economic empowerment priorities aligned with Odinga's agenda."
+  - source_id: world-bank-2019-affordable-housing
+    summary: "Provides financing context for affordable credit initiatives."
+updated_at: 2025-10-15

@@ -1,0 +1,22 @@
+id: role-vice-president-1964
+slug: vice-president-1964
+title: "Vice President of Kenya"
+organization: "Government of Kenya"
+organization_type: "executive"
+span:
+  start:
+    date: 1964-12-12
+  end:
+    date: 1966-04-14
+holders:
+  - person_id: person-jaramogi-oginga-odinga
+    capacity: "Vice President"
+    span:
+      start:
+        date: 1964-12-12
+      end:
+        date: 1966-04-14
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Records Jaramogi Oginga Odinga's vice presidency."
+updated_at: 2025-10-15

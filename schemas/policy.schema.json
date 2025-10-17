@@ -1,0 +1,100 @@
+{
+  "$id": "https://railasite.org/schemas/policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Policy Position Record",
+  "description": "Topic-specific policy summaries with historical stance tracking.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "topic",
+    "title",
+    "summary",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "topic": {
+      "$ref": "./common-definitions.schema.json#/$defs/tag"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "narrative": {
+      "$ref": "./common-definitions.schema.json#/$defs/localizedString"
+    },
+    "stance_over_time": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "span",
+          "position",
+          "sources"
+        ],
+        "properties": {
+          "span": {
+            "$ref": "./common-definitions.schema.json#/$defs/temporalSpan"
+          },
+          "position": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "related_events": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "related_speeches": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

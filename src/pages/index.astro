@@ -1,0 +1,410 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import UpdateList from '@components/UpdateList.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { primaryNav } from '@config/navigation';
+
+const home = await getEntry('pages', 'home');
+const { Content } = await home.render();
+const updates = (await getCollection('updates')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const navItems = [...primaryNav];
+const heroImage = home.data.hero?.image;
+const heroActions = home.data.hero?.actions ?? [];
+const heroSpotlight = home.data.hero?.spotlight ?? [];
+const gallery = home.data.gallery ?? [];
+---
+<BaseLayout title={home.data.title} description={home.data.description} updatedAt={home.data.updated.toISOString()} navItems={navItems}>
+  <section class="hero" aria-labelledby="home-hero-heading">
+    <div class="hero__layout">
+      <div class="hero__content">
+        <p class="hero__eyebrow">{home.data.hero?.eyebrow}</p>
+        <h1 id="home-hero-heading" class="hero__title">{home.data.hero?.heading ?? home.data.title}</h1>
+        <p class="hero__subtitle">A Chronicle of Resilience and Hope — Compiled by Imanasoft</p>
+        <p class="hero__summary">{home.data.hero?.summary}</p>
+
+        {heroActions.length > 0 && (
+          <div class="hero__actions" role="group" aria-label="Primary actions">
+            {heroActions.map((action) => (
+              <a class="hero__action" href={action.href} {...(action.external ? { target: '_blank', rel: 'noreferrer noopener' } : {})}>
+                <span>{action.label}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {heroImage && (
+        <figure class="hero__media">
+          <img src={heroImage.src} alt={heroImage.alt} loading="lazy" decoding="async" />
+          {heroImage.caption && (
+            <figcaption>
+              {heroImage.caption}{' '}
+              {heroImage.credit && (
+                <a href={heroImage.credit.href} target="_blank" rel="noreferrer noopener">
+                  {heroImage.credit.label}
+                </a>
+              )}
+            </figcaption>
+          )}
+        </figure>
+      )}
+    </div>
+
+    {heroSpotlight.length > 0 && (
+      <nav class="hero__spotlight" aria-label="Spotlight navigation">
+        <ul>
+          {heroSpotlight.map((spot) => (
+            <li>
+              <a href={spot.href} {...(spot.external ? { target: '_blank', rel: 'noreferrer noopener' } : {})}>
+                <span class="hero__spotlight-label">{spot.label}</span>
+                <span class="hero__spotlight-description">{spot.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </section>
+
+  <article class="prose" aria-label="Home introduction">
+    <Content />
+  </article>
+
+  {gallery.length > 0 && (
+    <section class="hero-gallery" aria-labelledby="hero-gallery-title">
+      <div class="hero-gallery__header">
+        <p class="hero-gallery__eyebrow">Visual Archive</p>
+        <h2 id="hero-gallery-title">Moments that shaped the Orange Democratic spirit</h2>
+        <p>
+          Selected imagery keeps the archive vibrant. Each thumbnail links to the original host for deeper context and licensing
+          notes.
+        </p>
+      </div>
+      <div class="hero-gallery__grid">
+        {gallery.map((item) => (
+          <figure class="hero-gallery__item">
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+            <figcaption>
+              <span class="hero-gallery__caption">{item.caption}</span>
+              {item.credit && (
+                <a href={item.credit.href} target="_blank" rel="noreferrer noopener">
+                  {item.credit.label}
+                </a>
+              )}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <div class="site-grid">
+    {home.data.sections.map((section) => (
+      <section class="site-section" id={section.id} aria-labelledby={`${section.id}-title`}>
+        {section.eyebrow && <p class="site-section__eyebrow">{section.eyebrow}</p>}
+        <h2 id={`${section.id}-title`} class="site-section__title">{section.title}</h2>
+        {section.summary && <p class="site-section__intro">{section.summary}</p>}
+        {section.links && (
+          <ul class="site-links">
+            {section.links.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))}
+  </div>
+
+  <UpdateList updates={updates.slice(0, 5)} />
+</BaseLayout>
+
+<style>
+.hero {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-7) 0 var(--space-6);
+}
+
+.hero__layout {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .hero__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+  }
+}
+
+.hero__content {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.hero__eyebrow {
+  font-family: var(--font-family-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+  margin: 0;
+}
+
+.hero__title {
+  font-size: clamp(var(--font-size-500), 5vw, var(--font-size-700));
+  line-height: var(--line-height-tight);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.hero__summary {
+  font-size: clamp(var(--font-size-200), 2.5vw, var(--font-size-300));
+  max-width: 40ch;
+  color: var(--color-text-secondary);
+}
+
+.hero__subtitle {
+  font-size: clamp(var(--font-size-100), 2.1vw, var(--font-size-200));
+  font-style: italic;
+  color: var(--color-text-secondary);
+  opacity: 0.85;
+  margin: 0;
+  max-width: 40ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.hero__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-inverse);
+  background: linear-gradient(135deg, var(--color-brand-secondary), var(--color-brand-primary));
+  box-shadow: 0 10px 30px rgba(17, 75, 155, 0.15);
+  transition: transform var(--motion-duration-standard) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.hero__action:hover,
+.hero__action:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(17, 75, 155, 0.2);
+}
+
+.hero__media {
+  position: relative;
+  margin: 0;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(7, 30, 73, 0.2);
+  background: var(--color-surface-elevated);
+}
+
+.hero__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero__media figcaption {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-50);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem 1rem;
+  background: rgba(7, 30, 73, 0.82);
+  color: var(--color-text-inverse);
+}
+
+.hero__media figcaption a {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+}
+
+.hero__media figcaption a:hover,
+.hero__media figcaption a:focus-visible {
+  text-decoration: underline;
+}
+
+.hero__spotlight {
+  background: linear-gradient(135deg, rgba(17, 75, 155, 0.08), rgba(245, 116, 0, 0.08));
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(17, 75, 155, 0.12);
+  padding: var(--space-3);
+}
+
+.hero__spotlight ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 48rem) {
+  .hero__spotlight ul {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+}
+
+.hero__spotlight a {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-primary);
+  box-shadow: var(--elevation-flat);
+  transition: border-color var(--motion-duration-standard) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-standard) var(--motion-easing-standard),
+    transform var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.hero__spotlight a:hover,
+.hero__spotlight a:focus-visible {
+  border-color: var(--color-brand-primary);
+  box-shadow: var(--elevation-floating);
+  transform: translateY(-2px);
+}
+
+.hero__spotlight-label {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-brand-secondary);
+}
+
+.hero__spotlight-description {
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.hero-gallery {
+  margin-block: var(--space-6);
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hero-gallery__header {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 48rem;
+}
+
+.hero-gallery__eyebrow {
+  font-family: var(--font-family-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: var(--font-size-75);
+  color: var(--color-brand-secondary);
+  margin: 0;
+}
+
+.hero-gallery__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .hero-gallery__grid {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+
+.hero-gallery__item {
+  margin: 0;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: var(--color-surface-elevated);
+  box-shadow: 0 12px 28px rgba(7, 30, 73, 0.15);
+  display: grid;
+}
+
+.hero-gallery__item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-gallery__item figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  font-size: var(--font-size-75);
+  color: var(--color-text-primary);
+}
+
+.hero-gallery__caption {
+  font-weight: var(--font-weight-semibold);
+}
+
+.hero-gallery__item a {
+  color: var(--color-brand-secondary);
+  text-decoration: none;
+}
+
+.hero-gallery__item a:hover,
+.hero-gallery__item a:focus-visible {
+  text-decoration: underline;
+}
+
+.site-links {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.site-links a {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-brand-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-surface-highlight);
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard),
+    color var(--motion-duration-standard) var(--motion-easing-standard),
+    border-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+
+.site-links a:hover,
+.site-links a:focus-visible {
+  background: var(--color-brand-secondary);
+  border-color: var(--color-brand-secondary);
+  color: var(--color-text-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__action,
+  .hero__spotlight a,
+  .hero-gallery__item,
+  .site-links a {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+</style>

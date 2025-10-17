@@ -1,0 +1,157 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '@utils/format';
+import { primaryNav } from '@config/navigation';
+import { mapSourceIds } from '@utils/sources';
+
+const updates = (await getCollection('updates')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const updateEntries = updates.map((entry) => ({
+  ...entry,
+  sourceMeta: mapSourceIds(entry.data.sources ?? [])
+}));
+
+const grouped = {
+  raila: [] as typeof updateEntries,
+  site: [] as typeof updateEntries
+};
+
+updateEntries.forEach((entry) => {
+  const category = (entry.data.category ?? 'site') as 'raila' | 'site';
+  grouped[category].push(entry);
+});
+
+const feedSections = [
+  {
+    id: 'raila-updates',
+    eyebrow: 'Memorial Log',
+    title: 'Raila Updates',
+    description:
+      "State communications, tributes, and key developments connected to Raila Odinga's life and legacy.",
+    entries: grouped.raila
+  },
+  {
+    id: 'site-updates',
+    eyebrow: 'Changelog',
+    title: 'Site Updates',
+    description: 'Release notes covering new sections, accessibility enhancements, and data maintenance.',
+    entries: grouped.site
+  }
+] as const;
+
+const navItems = [...primaryNav];
+---
+<BaseLayout title="Updates" description="Change log for the Raila Odinga reference site." updatedAt={new Date().toISOString()} navItems={navItems}>
+  <section aria-labelledby="updates-title" class="site-section">
+    <p class="site-section__eyebrow">Living Record</p>
+    <h1 id="updates-title" class="site-section__title">Updates Directory</h1>
+    <p class="site-section__intro">
+      The archive now separates real-world developments about Raila Odinga from website release notes. Use the Raila Updates feed
+      for memorial and political milestones, and the Site Updates feed for product iteration.
+    </p>
+  </section>
+
+  {feedSections.map((section) => (
+    <section class="site-section updates-feed" id={section.id} aria-labelledby={`${section.id}-title`}>
+      <p class="site-section__eyebrow">{section.eyebrow}</p>
+      <h2 id={`${section.id}-title`} class="site-section__title">{section.title}</h2>
+      {section.description && <p class="site-section__intro">{section.description}</p>}
+      {section.entries.length > 0 ? (
+        <ol class="updates-list">
+          {section.entries.map((entry) => (
+            <li class="updates-list__item">
+              <article>
+                <header>
+                  <time datetime={entry.data.date.toISOString()} class="updates-list__date">{formatDate(entry.data.date)}</time>
+                  <h3 class="updates-list__title"><a href={`/updates/${entry.slug}/`}>{entry.data.title}</a></h3>
+                </header>
+                <p>{entry.data.summary}</p>
+                {entry.sourceMeta.length > 0 && (
+                  <ul class="updates-list__sources">
+                    {entry.sourceMeta.map((source) => (
+                      <li>
+                        {source.url ? (
+                          <a href={source.url} target="_blank" rel="noreferrer noopener">{source.title}</a>
+                        ) : (
+                          source.title
+                        )}
+                        {source.publisher && <span class="updates-list__source-publisher"> · {source.publisher}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="updates-list__empty">Updates will appear here soon.</p>
+      )}
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+.updates-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-6) 0 var(--space-8);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.updates-list__item {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  background: var(--color-surface-default);
+}
+
+.updates-list__date {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.updates-list__title {
+  margin-block: var(--space-2);
+  font-size: var(--font-size-200);
+}
+
+.updates-list__sources {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-1);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  color: var(--color-text-secondary);
+}
+
+.updates-list__sources a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.updates-list__sources a:hover,
+.updates-list__sources a:focus-visible {
+  color: var(--color-link);
+}
+
+.updates-list__source-publisher {
+  color: var(--color-text-secondary);
+}
+
+.updates-feed + .updates-feed {
+  margin-top: var(--space-7);
+}
+
+.updates-list__empty {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-family-sans);
+  color: var(--color-text-secondary);
+}
+</style>

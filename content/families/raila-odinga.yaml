@@ -1,0 +1,26 @@
+id: familymember-raila-odinga
+slug: raila-odinga
+person_id: person-raila-odinga
+display_name: "Raila Amolo Odinga"
+birth:
+  date: 1945-01-07
+  description: "Maseno, Kisumu District"
+relationships:
+  parents:
+    - id: familymember-jaramogi-oginga-odinga
+  spouses:
+    - id: familymember-ida-odinga
+  children:
+    - id: familymember-rose-odinga
+lineage_notes: "Second born child of Jaramogi Oginga Odinga and Mary Ajuma Odinga."
+lineage_order:
+  generation: 2
+  birth_order: 2
+tags:
+  - lineage
+sources:
+  - source_id: britannica-rail-2025
+    summary: "Lists Odinga's parents and year of birth."
+  - source_id: nation-profile-2023
+    summary: "Provides family background details."
+updated_at: 2025-10-15

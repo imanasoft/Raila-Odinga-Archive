@@ -1,0 +1,194 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FamilyTree from '@components/FamilyTree.astro';
+import LocationMap from '@components/LocationMap.astro';
+import { getEntry } from 'astro:content';
+import { parse } from 'yaml';
+
+import { primaryNav } from '@config/navigation';
+import type { LocationEntry, PersonEntry } from '@types/content';
+
+const navItems = [...primaryNav];
+
+const pageEntry = await getEntry('pages', 'early-life');
+const { Content } = await pageEntry.render();
+const hero = pageEntry.data.hero;
+
+const personRaw = await import('../../content/people/raila-odinga.yaml?raw');
+const person = parse(personRaw.default) as PersonEntry;
+
+const locationModules = import.meta.glob<string>('../../content/locations/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default'
+});
+const locations = Object.values(locationModules).map((content) => parse(content) as LocationEntry);
+const locationMap = new Map(locations.map((entry) => [entry.id, entry]));
+
+const educationEntries = (person.education ?? [])
+  .map((entry) => {
+    const startDate = entry.span?.start?.date ? new Date(entry.span.start.date) : undefined;
+    return {
+      ...entry,
+      sortValue: startDate?.getTime() ?? Number.POSITIVE_INFINITY,
+      locationName: entry.location_id ? locationMap.get(entry.location_id)?.name : undefined
+    };
+  })
+  .sort((a, b) => a.sortValue - b.sortValue);
+
+const sections = new Map(pageEntry.data.sections.map((section) => [section.id, section]));
+const updatedAt = pageEntry.data.updated.toISOString();
+
+---
+<BaseLayout title={pageEntry.data.title} description={pageEntry.data.description} updatedAt={updatedAt} navItems={navItems}>
+  <section class="hero" aria-labelledby="early-life-hero">
+    {hero?.eyebrow && <p class="site-section__eyebrow">{hero.eyebrow}</p>}
+    <h1 id="early-life-hero" class="site-section__title">{hero?.heading ?? pageEntry.data.title}</h1>
+    {hero?.summary && <p class="site-section__intro">{hero.summary}</p>}
+  </section>
+
+  <article class="prose" aria-labelledby="early-life-narrative">
+    <h2 id="early-life-narrative" class="visually-hidden">Narrative overview</h2>
+    <Content />
+  </article>
+
+  {sections.get('lineage-overview') && (
+    <section class="site-section" id="lineage-overview" aria-labelledby="lineage-overview-title">
+      <p class="site-section__eyebrow">{sections.get('lineage-overview')?.eyebrow}</p>
+      <h2 id="lineage-overview-title" class="site-section__title">{sections.get('lineage-overview')?.title}</h2>
+      {sections.get('lineage-overview')?.summary && (
+        <p class="site-section__intro">{sections.get('lineage-overview')?.summary}</p>
+      )}
+      <FamilyTree
+        focusId="familymember-raila-odinga"
+        highlightIds={["familymember-jaramogi-oginga-odinga", "familymember-ida-odinga"]}
+      />
+    </section>
+  )}
+
+  {sections.get('education-timeline') && (
+    <section class="site-section" id="education-timeline" aria-labelledby="education-timeline-title">
+      <p class="site-section__eyebrow">{sections.get('education-timeline')?.eyebrow}</p>
+      <h2 id="education-timeline-title" class="site-section__title">
+        {sections.get('education-timeline')?.title}
+      </h2>
+      {sections.get('education-timeline')?.summary && (
+        <p class="site-section__intro">{sections.get('education-timeline')?.summary}</p>
+      )}
+      <ol class="education-list">
+        {educationEntries.map((entry) => (
+          <li>
+            <div class="education-list__heading">
+              <span class="education-list__institution">{entry.institution}</span>
+              {entry.credential && <span class="education-list__credential">{entry.credential}</span>}
+            </div>
+            <p class="education-list__meta">
+              {entry.span?.start?.date && (
+                <>
+                  <time dateTime={entry.span.start.date}>{new Date(entry.span.start.date).toLocaleDateString('en-GB', {
+                    year: 'numeric'
+                  })}</time>
+                  {entry.span?.end?.date && (
+                    <>
+                      {' '}–{' '}
+                      <time dateTime={entry.span.end.date}>{new Date(entry.span.end.date).toLocaleDateString('en-GB', {
+                        year: 'numeric'
+                      })}</time>
+                    </>
+                  )}
+                </>
+              )}
+              {entry.locationName && ` · ${entry.locationName}`}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {sections.get('formative-places') && (
+    <section class="site-section" id="formative-places" aria-labelledby="formative-places-title">
+      <p class="site-section__eyebrow">{sections.get('formative-places')?.eyebrow}</p>
+      <h2 id="formative-places-title" class="site-section__title">
+        {sections.get('formative-places')?.title}
+      </h2>
+      {sections.get('formative-places')?.summary && (
+        <p class="site-section__intro">{sections.get('formative-places')?.summary}</p>
+      )}
+      <div class="location-grid">
+        <LocationMap locationId="location-kisumu" zoom={8} />
+        <LocationMap locationId="location-nairobi" zoom={10} />
+        <LocationMap locationId="location-magdeburg" zoom={9} />
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.hero {
+  padding-block: var(--space-7);
+}
+
+.location-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .location-grid {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+
+@media (min-width: 56rem) {
+  .location-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.education-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.education-list__heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: baseline;
+}
+
+.education-list__institution {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-semibold);
+}
+
+.education-list__credential {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.education-list__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>

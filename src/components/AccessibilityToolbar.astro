@@ -1,0 +1,436 @@
+---
+const sections = [
+  {
+    title: 'Contrast',
+    description: 'Switch between the default theme and a high-contrast mode.',
+    controls: [
+      { label: 'Default theme', setting: 'theme', value: 'default' },
+      { label: 'High contrast', setting: 'theme', value: 'high-contrast' },
+    ],
+  },
+  {
+    title: 'Text size',
+    description: 'Adjust the base font size used across the site.',
+    controls: [
+      { label: 'Standard text', setting: 'textSize', value: 'standard' },
+      { label: 'Large text', setting: 'textSize', value: 'large' },
+    ],
+  },
+  {
+    title: 'Motion',
+    description: 'Choose animation preferences for transitions and effects.',
+    controls: [
+      { label: 'Standard motion', setting: 'motion', value: 'standard' },
+      { label: 'Reduced motion', setting: 'motion', value: 'reduced' },
+    ],
+  },
+  {
+    title: 'Reading palette',
+    description: 'Select colour presets designed for different reading preferences.',
+    controls: [
+      { label: 'Default palette', setting: 'preset', value: 'default' },
+      { label: 'Dyslexia friendly', setting: 'preset', value: 'dyslexia' },
+      { label: 'Sepia', setting: 'preset', value: 'sepia' },
+    ],
+  },
+];
+---
+<details class="accessibility-toolbar" data-accessibility-toolbar>
+  <summary class="accessibility-toolbar__summary">
+    <span class="accessibility-toolbar__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+        <path
+          fill="currentColor"
+          d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l1.65-1.29a.5.5 0 0 0 .12-.64l-1.56-2.7a.5.5 0 0 0-.61-.22l-1.94.78a7.046 7.046 0 0 0-1.63-.94l-.3-2.06A.5.5 0 0 0 14.41 3h-3.12a.5.5 0 0 0-.5.43l-.3 2.06c-.59.23-1.13.54-1.63.94l-1.94-.78a.5.5 0 0 0-.61.22L4.75 8.57a.5.5 0 0 0 .12.64l1.65 1.29c-.04.31-.06.63-.06.94s.02.63.06.94l-1.65 1.29a.5.5 0 0 0-.12.64l1.56 2.7c.13.22.4.31.61.22l1.94-.78c.5.4 1.04.71 1.63.94l.3 2.06a.5.5 0 0 0 .5.43h3.12a.5.5 0 0 0 .5-.43l.3-2.06c.59-.23 1.13-.54 1.63-.94l1.94.78c.22.09.48 0 .61-.22l1.56-2.7a.5.5 0 0 0-.12-.64l-1.65-1.29ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"
+        />
+      </svg>
+    </span>
+    <span class="accessibility-toolbar__summary-label">Accessibility</span>
+  </summary>
+  <div class="accessibility-toolbar__panel" role="region" aria-label="Accessibility controls">
+    {sections.map((section) => (
+      <section class="accessibility-toolbar__section">
+        <header class="accessibility-toolbar__section-header">
+          <h2 class="accessibility-toolbar__section-title">{section.title}</h2>
+          <p class="accessibility-toolbar__section-description">{section.description}</p>
+        </header>
+        <div class="accessibility-toolbar__controls" role="group" aria-label={section.title}>
+          {section.controls.map((control) => (
+            <button
+              type="button"
+              class="accessibility-toolbar__control"
+              data-setting={control.setting}
+              data-value={control.value}
+              aria-pressed="false"
+            >
+              {control.label}
+            </button>
+          ))}
+        </div>
+      </section>
+    ))}
+    <div class="accessibility-toolbar__footer">
+      <button type="button" class="accessibility-toolbar__reset" data-reset="true">
+        Reset preferences
+      </button>
+    </div>
+  </div>
+</details>
+
+<script type="module" is:inline>
+  const STORAGE_KEY = 'roa-accessibility-preferences';
+  const DEFAULTS = {
+    theme: 'default',
+    textSize: 'standard',
+    motion: 'standard',
+    preset: 'default',
+  };
+
+  /**
+   * @param {Storage} storage
+   */
+  function readPreferences(storage) {
+    if (!storage) return { ...DEFAULTS };
+
+    try {
+      const stored = storage.getItem(STORAGE_KEY);
+      if (!stored) return { ...DEFAULTS };
+      const parsed = JSON.parse(stored);
+      return { ...DEFAULTS, ...parsed };
+    } catch (error) {
+      console.error('Failed to read accessibility preferences', error);
+      return { ...DEFAULTS };
+    }
+  }
+
+  /**
+   * @param {Storage} storage
+   * @param {Record<string, string>} preferences
+   */
+  function persistPreferences(storage, preferences) {
+    if (!storage) return;
+
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+    } catch (error) {
+      console.error('Failed to save accessibility preferences', error);
+    }
+  }
+
+  /**
+   * @returns {Storage | null}
+   */
+  function getStorage() {
+    try {
+      if (typeof window === 'undefined') return null;
+      return window.localStorage;
+    } catch (error) {
+      console.warn('Local storage is unavailable; preferences will not persist.', error);
+      return null;
+    }
+  }
+
+  /**
+   * @param {Record<string, string>} preferences
+   */
+  function applyPreferences(preferences) {
+    const root = document.documentElement;
+
+    if (preferences.theme === 'high-contrast') {
+      root.dataset.theme = 'high-contrast';
+    } else {
+      delete root.dataset.theme;
+    }
+
+    if (preferences.textSize === 'large') {
+      root.dataset.textSize = 'large';
+    } else {
+      delete root.dataset.textSize;
+    }
+
+    if (preferences.motion === 'reduced') {
+      root.dataset.motion = 'reduced';
+    } else {
+      delete root.dataset.motion;
+    }
+
+    if (preferences.preset && preferences.preset !== 'default') {
+      root.dataset.themePreset = preferences.preset;
+    } else {
+      delete root.dataset.themePreset;
+    }
+  }
+
+  /**
+   * @param {HTMLElement} toolbar
+   * @param {Record<string, string>} preferences
+   */
+  function reflectActiveStates(toolbar, preferences) {
+    const controls = toolbar.querySelectorAll('[data-setting]');
+    controls.forEach((control) => {
+      const { setting, value } = control.dataset;
+      const isActive = preferences[setting] === value;
+      control.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      control.classList.toggle('is-active', isActive);
+    });
+  }
+
+  function initialiseToolbar() {
+    const toolbar = document.querySelector('[data-accessibility-toolbar]');
+    if (!toolbar) return;
+
+    const storage = getStorage();
+    let preferences = readPreferences(storage);
+
+    applyPreferences(preferences);
+    reflectActiveStates(toolbar, preferences);
+
+    toolbar.querySelectorAll('[data-setting]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const { setting, value } = control.dataset;
+        if (!setting || typeof value === 'undefined') {
+          return;
+        }
+
+        preferences = {
+          ...preferences,
+          [setting]: value,
+        };
+
+        applyPreferences(preferences);
+        reflectActiveStates(toolbar, preferences);
+        persistPreferences(storage, preferences);
+      });
+    });
+
+    const resetButton = toolbar.querySelector('[data-reset="true"]');
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        preferences = { ...DEFAULTS };
+        applyPreferences(preferences);
+        reflectActiveStates(toolbar, preferences);
+        persistPreferences(storage, preferences);
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialiseToolbar, { once: true });
+  } else {
+    initialiseToolbar();
+  }
+</script>
+
+<style>
+  .accessibility-toolbar {
+    position: fixed;
+    inset-block-end: var(--space-4);
+    inset-inline-end: var(--space-4);
+    z-index: 1200;
+    color: var(--color-text-primary);
+  }
+
+  .accessibility-toolbar[open] {
+    filter: drop-shadow(0 20px 45px rgba(7, 30, 73, 0.18));
+  }
+
+  .accessibility-toolbar__summary {
+    display: grid;
+    place-items: center;
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    padding: 0;
+    margin: 0;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border-default);
+    background: var(--color-surface-highlight);
+    cursor: pointer;
+    transition: transform var(--motion-duration-fast) var(--motion-easing-standard),
+      background var(--motion-duration-fast) var(--motion-easing-standard);
+  }
+
+  .accessibility-toolbar__summary:focus-visible,
+  .accessibility-toolbar__summary:hover {
+    background: var(--color-surface-default);
+    transform: scale(1.05);
+    width: min(22rem, calc(100% - var(--space-4) * 2));
+    max-height: 80vh;
+    z-index: 1200;
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--elevation-floating);
+    background: var(--color-surface-default);
+    color: var(--color-text-primary);
+    overflow: hidden;
+  }
+
+  .accessibility-toolbar[open] {
+    box-shadow: 0 20px 45px rgba(7, 30, 73, 0.18);
+  }
+
+  .accessibility-toolbar__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-75);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--color-surface-highlight);
+  }
+
+  .accessibility-toolbar__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accessibility-toolbar__icon {
+    inline-size: 1.6rem;
+    block-size: 1.6rem;
+    color: var(--color-text-primary);
+  }
+
+  .accessibility-toolbar__summary-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .accessibility-toolbar__panel {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: calc(100% + var(--space-3));
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    inline-size: min(22rem, calc(100vw - var(--space-4) * 2));
+    max-block-size: 70vh;
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--color-border-default);
+    background: var(--color-surface-default);
+    box-shadow: var(--elevation-floating);
+  .accessibility-toolbar__panel {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    overflow-y: auto;
+  }
+
+  .accessibility-toolbar__section {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .accessibility-toolbar__section-header {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .accessibility-toolbar__section-title {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-100);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .accessibility-toolbar__section-description {
+    margin: 0;
+    font-size: var(--font-size-75);
+    color: var(--color-text-secondary);
+  }
+
+  .accessibility-toolbar__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .accessibility-toolbar__control {
+    flex: 1 1 calc(50% - var(--space-2));
+    min-width: 8.5rem;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border-default);
+    background: var(--color-surface-subtle);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-75);
+    letter-spacing: 0.02em;
+    text-transform: none;
+    cursor: pointer;
+    transition: border-color var(--motion-duration-standard) var(--motion-easing-standard),
+      background var(--motion-duration-standard) var(--motion-easing-standard),
+      color var(--motion-duration-standard) var(--motion-easing-standard);
+  }
+
+  .accessibility-toolbar__control:hover,
+  .accessibility-toolbar__control:focus-visible {
+    border-color: var(--color-border-accent);
+    background: var(--color-surface-highlight);
+  }
+
+  .accessibility-toolbar__control.is-active {
+    border-color: var(--color-brand-secondary);
+    background: var(--color-brand-secondary);
+    color: var(--color-text-inverse);
+  }
+
+  .accessibility-toolbar__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .accessibility-toolbar__reset {
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-75);
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-md);
+    background: transparent;
+    color: var(--color-link);
+    cursor: pointer;
+  }
+
+  .accessibility-toolbar__reset:hover,
+  .accessibility-toolbar__reset:focus-visible {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 48rem) {
+    .accessibility-toolbar {
+      inset-inline: var(--space-2);
+      inset-block-end: var(--space-2);
+    }
+
+    .accessibility-toolbar__panel {
+      inset-inline-end: auto;
+      inset-inline-start: 0;
+      inline-size: clamp(18rem, 80vw, 22rem);
+      max-block-size: 60vh;
+      width: auto;
+      max-width: none;
+    }
+
+    .accessibility-toolbar__panel {
+      max-height: 60vh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .accessibility-toolbar,
+    .accessibility-toolbar__control {
+      transition: none;
+    }
+  }
+</style>

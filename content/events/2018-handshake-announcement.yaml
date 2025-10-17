@@ -1,0 +1,31 @@
+id: event-2018-handshake-announcement
+slug: 2018-handshake-announcement
+title: "Handshake reconciliation announcement"
+span:
+  start:
+    date: 2018-03-09
+  precision: day
+summary: "Raila Odinga and President Uhuru Kenyatta publicly committed to a unity initiative after the 2017 election dispute."
+description:
+  en: |
+    The leaders met at Harambee House to introduce the Building Bridges Initiative, framing it as a roadmap to address historical grievances, inclusivity, and corruption.
+location:
+  location_id: location-nairobi
+categories:
+  - political-journey
+  - governance
+related_people:
+  - id: person-raila-odinga
+media:
+  - id: media-2018-handshake-photo
+timeline_display:
+  intensity: medium
+  filters:
+    - reconciliation
+    - governance
+sources:
+  - source_id: reuters-2018-handshake
+    quote: "Opposition leader Raila Odinga said they had resolved to put the past behind them."
+  - source_id: africa-report-2023-coalition
+    summary: "Describes the handshake as a turning point in Kenyan coalition politics."
+updated_at: 2025-10-15

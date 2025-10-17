@@ -1,0 +1,126 @@
+{
+  "$id": "https://railasite.org/schemas/media.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Media Asset Record",
+  "description": "Image, video, and audio resources with licensing and accessibility metadata.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "type",
+    "title",
+    "description",
+    "credit",
+    "license",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common-definitions.schema.json#/$defs/identifier"
+    },
+    "slug": {
+      "$ref": "./common-definitions.schema.json#/$defs/slug"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "audio"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "credit": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "capture_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "creator": {
+      "type": "string"
+    },
+    "source_asset_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "optimized_path": {
+      "type": "string"
+    },
+    "alt_text": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "transcript": {
+      "type": "string"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "focal_point": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/tag"
+      }
+    },
+    "related_events": {
+      "type": "array",
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/linkReference"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./common-definitions.schema.json#/$defs/sourceReference"
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false
+}

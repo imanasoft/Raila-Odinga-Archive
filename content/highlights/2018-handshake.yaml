@@ -1,0 +1,19 @@
+id: highlight-2018-handshake
+slug: national-reconciliation
+title: "2018 Handshake reconciliation framework"
+summary: "The March 2018 accord between Odinga and President Kenyatta launched the Building Bridges Initiative to address recurrent electoral crises."
+period: "9 Mar 2018"
+theme: governance
+topics:
+  - governance
+  - reconciliation
+links:
+  - label: "Review reconciliation policy"
+    href: "/policies#national-reconciliation"
+  - label: "Watch the joint address"
+    href: "/media#media-2018-handshake-photo"
+sources:
+  - source_id: reuters-2018-handshake
+    summary: "Reports on the handshake announcement and objectives."
+  - source_id: africa-report-2023-coalition
+    summary: "Provides analytical context for the Building Bridges Initiative."

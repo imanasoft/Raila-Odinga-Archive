@@ -1,0 +1,22 @@
+id: media-2008-wef-plenary-photo
+slug: 2008-wef-plenary-photo
+type: image
+title: "World Economic Forum on Africa plenary (2008)"
+description: "Raila Odinga speaks during the opening plenary session at the World Economic Forum on Africa in June 2008."
+credit: "World Economic Forum / Eric Miller"
+license: "CC BY-SA 2.0"
+capture_date: 2008-06-04
+creator: "World Economic Forum"
+source_asset_url: "https://www.weforum.org/events/world-economic-forum-on-africa-2008/sessions/opening-plenary/"
+preview_url: "https://commons.wikimedia.org/wiki/Special:FilePath/Opening%20Plenary%20-%20World%20Economic%20Forum%20on%20Africa%202008.jpg?width=1600"
+alt_text: "Raila Odinga addresses delegates at the World Economic Forum on Africa in 2008."
+caption: "Prime Minister Raila Odinga outlines coalition governance priorities at the 2008 World Economic Forum on Africa in Cape Town."
+related_events:
+  - id: event-2008-grand-coalition
+tags:
+  - diplomacy
+  - governance
+sources:
+  - source_id: wef-2008-plenary
+    summary: "Conference programme listing Odinga's plenary address."
+updated_at: 2025-10-17
